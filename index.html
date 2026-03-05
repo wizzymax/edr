@@ -39,15 +39,17 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg);
+  background: 
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(191,30,45,0.18), transparent),
+    radial-gradient(ellipse 50% 50% at 90% 90%, rgba(27,44,107,0.25), transparent),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='92' viewBox='0 0 80 92'%3E%3Cpolygon points='40,2 76,22 76,62 40,82 4,62 4,22' fill='none' stroke='rgba(255,255,255,0.055)' stroke-width='1.5'/%3E%3C/svg%3E"),
+    var(--bg);
+  background-size: auto, auto, 80px 92px, auto;
   position: relative;
   overflow: hidden;
 }
 #login-screen::before {
-  content:'';
-  position:absolute;inset:0;
-  background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(191,30,45,0.15), transparent),
-              radial-gradient(ellipse 40% 40% at 80% 80%, rgba(27,44,107,0.2), transparent);
+  content: none;
 }
 .login-box {
   background: linear-gradient(160deg, #111a38 0%, #0d1226 100%);
@@ -137,7 +139,10 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 
 /* HEADER */
 .app-header {
-  background: linear-gradient(135deg, #1b2c6b 0%, #0d1a45 100%);
+  background: 
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='69' viewBox='0 0 60 69'%3E%3Cpolygon points='30,2 57,17 57,47 30,62 3,47 3,17' fill='none' stroke='rgba(255,255,255,0.048)' stroke-width='1'/%3E%3C/svg%3E"),
+    linear-gradient(135deg, #1b2c6b 0%, #0d1a45 100%);
+  background-size: 60px 69px, auto;
   border-bottom: 3px solid var(--red-brand);
   padding: 0 1.5rem;
   height: 58px;
@@ -200,7 +205,10 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 /* SIDEBAR */
 .sidebar {
   width: 220px;
-  background: linear-gradient(180deg, #111a38 0%, #0d1226 100%);
+  background: 
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='69' viewBox='0 0 60 69'%3E%3Cpolygon points='30,2 57,17 57,47 30,62 3,47 3,17' fill='none' stroke='rgba(255,255,255,0.042)' stroke-width='1.2'/%3E%3C/svg%3E"),
+    linear-gradient(180deg, #111a38 0%, #0d1226 100%);
+  background-size: 60px 69px, auto;
   border-right: 1px solid var(--border);
   flex-shrink: 0;
   overflow-y: auto;
@@ -732,6 +740,27 @@ tr:last-child td { border-bottom: none; }
   .sidebar{display:none;}
   .stats-row{grid-template-columns:repeat(2,1fr);}
 }
+
+/* HEXAGON PATTERN */
+.hex-bg {
+  position: relative;
+}
+.hex-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='92' viewBox='0 0 80 92'%3E%3Cpolygon points='40,2 76,22 76,62 40,82 4,62 4,22' fill='none' stroke='rgba(255,255,255,0.06)' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-size: 80px 92px;
+  pointer-events: none;
+  z-index: 0;
+}
+.hex-bg > * { position: relative; z-index: 1; }
+
+/* login-screen hex via background-image layering */
+
+/* Sidebar and header use background-image layering for hex pattern */
+.app-header { position: relative; overflow: hidden; }
+
 </style>
 </head>
 <body>
@@ -751,9 +780,8 @@ tr:last-child td { border-bottom: none; }
       <span class="login-label">Department / Role</span>
       <select class="login-select" id="l-role">
         <option value="">— Select your department —</option>
-        <option value="ADMIN">GM / Director of Operations </option>
         <optgroup label="ADMINISTRATION">
-          
+          <option value="ADMIN">GM / Director of Operations (MASTER)</option>
           <option value="ADMIN_OFFICER">Administration Officer</option>
         </optgroup>
         <optgroup label="OPERATIONS">
@@ -776,12 +804,12 @@ tr:last-child td { border-bottom: none; }
     </div>
     <div class="login-group">
       <span class="login-label">Access PIN</span>
-      <input class="login-input" id="l-pin" type="password" placeholder="Enter password" onkeydown="if(event.key==='Enter')doLogin()">
+      <input class="login-input" id="l-pin" type="password" placeholder="Enter department PIN" onkeydown="if(event.key==='Enter')doLogin()">
     </div>
     <button class="login-btn" onclick="doLogin()">ACCESS PORTAL</button>
     <div class="login-err" id="login-err">⚠ Incorrect PIN. Please try again.</div>
     <div style="margin-top:1.2rem;font-size:0.68rem;color:var(--muted);text-align:center;font-family:var(--font-m);">
-      Default passwords → Admin: <strong style="color:#ff4d5e">1234</strong> &nbsp;|&nbsp; Depts: <strong style="color:#ff4d5e">0000</strong>
+      Default PINs → Admin: <strong style="color:#ff4d5e">1234</strong> &nbsp;|&nbsp; Depts: <strong style="color:#ff4d5e">0000</strong>
     </div>
   </div>
 </div>
