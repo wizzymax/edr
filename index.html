@@ -3,2016 +3,583 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LGT Logistics — Operations Portal</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<title>EDR Department — Collections Report 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
-:root {
-  --bg: #0d1226;
-  --surface: #111a38;
-  --panel: #162040;
-  --card: #1a2650;
-  --border: #243060;
-  --border2: #1e2a55;
-  --gold: #bf1e2d;
-  --gold2: #e8303f;
-  --red: #e05252;
-  --green: #2ab87a;
-  --blue: #4a7fd4;
-  --purple: #7b9ef0;
-  --muted: #5a6a99;
-  --muted2: #8899cc;
-  --text: #e8edf8;
-  --text2: #c0ccdd;
-  --font-h: 'Bebas Neue', sans-serif;
-  --font-b: 'Sora', sans-serif;
-  --font-m: 'JetBrains Mono', monospace;
-  --r: 6px;
-  --navy: #1b2c6b;
-  --red-brand: #bf1e2d;
-}
-*{margin:0;padding:0;box-sizing:border-box;}
-html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--font-b);}
+  :root {
+    --teal-dark: #085041; --teal-mid: #0F6E56; --teal-light: #1D9E75; --teal-pale: #E1F5EE;
+    --blue-dark: #042C53; --blue-mid: #185FA5; --blue-pale: #E6F1FB;
+    --amber-dark: #633806; --amber-mid: #BA7517; --amber-pale: #FAEEDA;
+    --coral-dark: #4A1B0C; --coral-mid: #993C1D; --coral-pale: #FAECE7;
+    --red-mid: #A32D2D; --red-pale: #FCEBEB;
+    --gray-900: #2C2C2A; --gray-700: #5F5E5A; --gray-500: #888780; --gray-200: #D3D1C7; --gray-50: #F1EFE8;
+    --bg: #F7F6F2; --surface: #FFFFFF; --border: rgba(136,135,128,0.2);
+    --font: 'Georgia', 'Times New Roman', serif;
+    --font-sans: 'Helvetica Neue', Arial, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); font-family: var(--font-sans); color: var(--gray-900); font-size: 13px; }
 
-/* ========= LOGIN SCREEN ========= */
-#login-screen {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: 
-    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(191,30,45,0.18), transparent),
-    radial-gradient(ellipse 50% 50% at 90% 90%, rgba(27,44,107,0.25), transparent),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='92' viewBox='0 0 80 92'%3E%3Cpolygon points='40,2 76,22 76,62 40,82 4,62 4,22' fill='none' stroke='rgba(255,255,255,0.055)' stroke-width='1.5'/%3E%3C/svg%3E"),
-    var(--bg);
-  background-size: auto, auto, 80px 92px, auto;
-  position: relative;
-  overflow: hidden;
-}
-#login-screen::before {
-  content: none;
-}
-.login-box {
-  background: linear-gradient(160deg, #111a38 0%, #0d1226 100%);
-  border: 1px solid rgba(191,30,45,0.3);
-  border-top: 4px solid var(--red-brand);
-  padding: 3rem 2.5rem;
-  width: 100%;
-  max-width: 420px;
-  position: relative;
-  z-index: 1;
-  animation: fadeUp 0.5s ease;
-}
-@keyframes fadeUp {
-  from { opacity:0; transform:translateY(24px); }
-  to { opacity:1; transform:translateY(0); }
-}
-.login-logo {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-.login-badge {
-  display: inline-block;
-  background: var(--gold);
-  color: var(--bg);
-  font-family: var(--font-h);
-  font-size: 2.2rem;
-  padding: 6px 20px;
-  letter-spacing: 4px;
-  clip-path: polygon(0 0,94% 0,100% 50%,94% 100%,0 100%);
-}
-.login-sub {
-  font-family: var(--font-m);
-  font-size: 0.65rem;
-  letter-spacing: 3px;
-  color: var(--muted2);
-  margin-top: 8px;
-  text-transform: uppercase;
-}
-.login-label {
-  font-size: 0.68rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--muted2);
-  margin-bottom: 6px;
-  display: block;
-}
-.login-group { margin-bottom: 1.2rem; }
-.login-input, .login-select {
-  width: 100%;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  color: var(--text);
-  font-family: var(--font-b);
-  font-size: 0.9rem;
-  padding: 11px 14px;
-  outline: none;
-  border-radius: var(--r);
-  transition: border-color .2s;
-}
-.login-input:focus, .login-select:focus { border-color: var(--gold); }
-.login-select option { background: var(--panel); }
-.login-btn {
-  width: 100%;
-  background: var(--gold);
-  color: var(--bg);
-  border: none;
-  font-family: var(--font-h);
-  font-size: 1.1rem;
-  letter-spacing: 3px;
-  padding: 13px;
-  cursor: pointer;
-  border-radius: var(--r);
-  transition: background .2s, transform .1s;
-  margin-top: 0.5rem;
-}
-.login-btn:hover { background: #e8303f; transform: translateY(-1px); }
-.login-err {
-  color: var(--red);
-  font-size: 0.78rem;
-  text-align: center;
-  margin-top: 0.8rem;
-  display: none;
-}
+  /* PRINT */
+  @media print {
+    .no-print { display: none !important; }
+    body { background: white; }
+    .page-wrap { max-width: 100%; padding: 10mm; }
+    .chart-grid { grid-template-columns: 1fr 1fr; }
+  }
 
-/* ========= APP SHELL ========= */
-#app { display: none; height: 100vh; flex-direction: column; }
+  .page-wrap { max-width: 1200px; margin: 0 auto; padding: 24px 28px; }
 
-/* HEADER */
-.app-header {
-  background: 
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='69' viewBox='0 0 60 69'%3E%3Cpolygon points='30,2 57,17 57,47 30,62 3,47 3,17' fill='none' stroke='rgba(255,255,255,0.048)' stroke-width='1'/%3E%3C/svg%3E"),
-    linear-gradient(135deg, #1b2c6b 0%, #0d1a45 100%);
-  background-size: 60px 69px, auto;
-  border-bottom: 3px solid var(--red-brand);
-  padding: 0 1.5rem;
-  height: 58px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-shrink: 0;
-  z-index: 50;
-}
-.h-logo { display: flex; align-items: center; gap: 12px; }
-.h-badge {
-  background: var(--gold);
-  color: var(--bg);
-  font-family: var(--font-h);
-  font-size: 1.3rem;
-  padding: 3px 12px;
-  letter-spacing: 2px;
-  clip-path: polygon(0 0,93% 0,100% 50%,93% 100%,0 100%);
-}
-.h-title {
-  font-family: var(--font-m);
-  font-size: 0.65rem;
-  letter-spacing: 2.5px;
-  color: var(--muted2);
-  text-transform: uppercase;
-}
-.h-right { display: flex; align-items: center; gap: 1.2rem; }
-.role-chip {
-  background: rgba(191,30,45,0.15);
-  border: 1px solid rgba(191,30,45,0.4);
-  color: #ff6070;
-  font-family: var(--font-m);
-  font-size: 0.65rem;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  padding: 4px 12px;
-  border-radius: 20px;
-}
-.user-chip {
-  font-size: 0.82rem;
-  color: var(--text2);
-  font-weight: 500;
-}
-.logout-btn {
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--muted2);
-  font-family: var(--font-b);
-  font-size: 0.78rem;
-  padding: 6px 14px;
-  border-radius: var(--r);
-  cursor: pointer;
-  transition: all .2s;
-}
-.logout-btn:hover { border-color: var(--red); color: var(--red); }
+  /* HEADER */
+  .report-header { display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 16px; border-bottom: 2px solid var(--teal-mid); margin-bottom: 20px; }
+  .company-block { display: flex; flex-direction: column; gap: 2px; }
+  .company-name { font-size: 20px; font-weight: 700; color: var(--teal-dark); letter-spacing: -0.3px; font-family: var(--font); }
+  .report-title { font-size: 13px; color: var(--gray-700); text-transform: uppercase; letter-spacing: 0.08em; }
+  .header-right { text-align: right; }
+  .period-badge { display: inline-block; background: var(--teal-mid); color: white; font-size: 11px; font-weight: 600; padding: 4px 14px; border-radius: 20px; letter-spacing: 0.06em; margin-bottom: 6px; }
+  .header-meta { font-size: 11px; color: var(--gray-500); }
 
-/* BODY LAYOUT */
-.app-body { display: flex; flex: 1; overflow: hidden; }
+  /* MONTH TABS */
+  .month-tabs { display: flex; gap: 4px; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 0; flex-wrap: wrap; }
+  .tab { padding: 7px 18px; font-size: 12px; font-weight: 500; cursor: pointer; border-radius: 6px 6px 0 0; border: 1px solid transparent; border-bottom: none; color: var(--gray-500); background: transparent; transition: all 0.15s; position: relative; bottom: -1px; }
+  .tab:hover { color: var(--teal-mid); }
+  .tab.active { background: var(--surface); border-color: var(--border); color: var(--teal-dark); font-weight: 600; }
+  .tab.no-data { color: var(--gray-200); cursor: default; font-style: italic; }
+  .tab.no-data:hover { color: var(--gray-200); }
 
-/* SIDEBAR */
-.sidebar {
-  width: 220px;
-  background: 
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='69' viewBox='0 0 60 69'%3E%3Cpolygon points='30,2 57,17 57,47 30,62 3,47 3,17' fill='none' stroke='rgba(255,255,255,0.042)' stroke-width='1.2'/%3E%3C/svg%3E"),
-    linear-gradient(180deg, #111a38 0%, #0d1226 100%);
-  background-size: 60px 69px, auto;
-  border-right: 1px solid var(--border);
-  flex-shrink: 0;
-  overflow-y: auto;
-  padding: 1rem 0;
-}
-.nav-section-label {
-  font-family: var(--font-m);
-  font-size: 0.58rem;
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.35);
-  padding: 0.8rem 1.2rem 0.4rem;
-}
-.nav-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 1.2rem;
-  cursor: pointer;
-  color: var(--muted2);
-  font-size: 0.83rem;
-  font-weight: 500;
-  transition: all .15s;
-  border-left: 3px solid transparent;
-  margin: 1px 0;
-}
-.nav-item:hover { background: rgba(201,168,76,0.05); color: var(--text); }
-.nav-item.active {
-  background: rgba(191,30,45,0.12);
-  color: #ff4d5e;
-  border-left-color: var(--red-brand);
-}
-.nav-icon { font-size: 1rem; width: 20px; text-align: center; }
+  /* KPI CARDS */
+  .kpi-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 20px; }
+  .kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; position: relative; overflow: hidden; }
+  .kpi-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .kpi-card.teal::before { background: var(--teal-mid); }
+  .kpi-card.blue::before { background: var(--blue-mid); }
+  .kpi-card.amber::before { background: var(--amber-mid); }
+  .kpi-card.coral::before { background: var(--coral-mid); }
+  .kpi-card.red::before { background: var(--red-mid); }
+  .kpi-label { font-size: 10px; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 6px; }
+  .kpi-value { font-size: 22px; font-weight: 700; color: var(--gray-900); font-family: var(--font); line-height: 1; margin-bottom: 4px; }
+  .kpi-sub { font-size: 10px; color: var(--gray-500); }
 
-/* CONTENT */
-.content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 1.5rem;
-  background: var(--bg);
-}
+  /* SECTION HEADING */
+  .section-head { font-size: 10px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .section-head::after { content: ''; flex: 1; height: 0.5px; background: var(--border); }
 
-/* SECTIONS */
-.dept-section { display: none; }
-.dept-section.active { display: block; }
+  /* CHART GRID */
+  .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .chart-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .chart-card.full { grid-column: 1 / -1; }
+  .chart-title { font-size: 12px; font-weight: 600; color: var(--gray-900); margin-bottom: 12px; }
+  .chart-title span { color: var(--gray-500); font-weight: 400; font-size: 11px; }
+  .legend { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 10px; }
+  .leg-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--gray-500); }
+  .leg-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
 
-/* PAGE HEADER */
-.page-hdr {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1.5rem;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-.page-title {
-  font-family: var(--font-h);
-  font-size: 1.8rem;
-  letter-spacing: 3px;
-  color: var(--text);
-}
-.page-title span { color: var(--gold); }
+  /* TABLE */
+  .table-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 20px; }
+  table { width: 100%; border-collapse: collapse; }
+  thead { background: var(--gray-50); }
+  th { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray-500); padding: 9px 12px; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--border); }
+  th:first-child { text-align: left; }
+  td { padding: 9px 12px; border-bottom: 0.5px solid var(--border); font-size: 12px; color: var(--gray-900); text-align: right; }
+  td:first-child { text-align: left; font-weight: 500; }
+  tr:last-child td { border-bottom: none; background: var(--gray-50); font-weight: 700; }
+  tr:hover:not(:last-child) td { background: #FAFAF8; }
 
-/* STATS */
-.stats-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-.stat-card {
-  background: var(--card);
-  border: 1px solid var(--border2);
-  border-top: 2px solid var(--red-brand);
-  padding: 1rem 1.2rem;
-  border-radius: var(--r);
-}
-.stat-label { font-size: 0.62rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted2); margin-bottom: 4px; }
-.stat-val { font-family: var(--font-h); font-size: 2rem; color: var(--gold); line-height: 1; }
-.stat-sub { font-size: 0.68rem; color: var(--muted); margin-top: 3px; }
+  /* PILL */
+  .pill { display: inline-block; padding: 2px 9px; border-radius: 20px; font-size: 10px; font-weight: 600; }
+  .pill-hi  { background: var(--teal-pale);  color: var(--teal-dark); }
+  .pill-mid { background: var(--amber-pale); color: var(--amber-dark); }
+  .pill-low { background: var(--red-pale);   color: var(--red-mid); }
 
-/* BUTTONS */
-.btn {
-  font-family: var(--font-b);
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  padding: 9px 18px;
-  border: none;
-  cursor: pointer;
-  border-radius: var(--r);
-  transition: all .15s;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-.btn-primary { background: var(--gold); color: var(--bg); }
-.btn-primary:hover { background: var(--gold2); transform: translateY(-1px); }
-.btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--muted2); }
-.btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
-.btn-danger { background: transparent; border: 1px solid rgba(224,82,82,0.4); color: var(--red); font-size: 0.72rem; padding: 5px 12px; }
-.btn-danger:hover { background: rgba(224,82,82,0.1); }
-.btn-sm { padding: 6px 12px; font-size: 0.75rem; }
-.btn-comment { background: rgba(91,141,238,0.12); border: 1px solid rgba(91,141,238,0.3); color: var(--blue); font-size: 0.72rem; padding: 5px 12px; }
-.btn-comment:hover { background: rgba(91,141,238,0.2); }
+  /* TREND TABLE */
+  .trend-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 20px; }
 
-/* TOOLBAR */
-.toolbar { display: flex; gap: 0.8rem; margin-bottom: 1.2rem; flex-wrap: wrap; align-items: center; }
-.search-wrap { position: relative; flex: 1; min-width: 180px; }
-.search-wrap input { width: 100%; }
-.search-icon { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 0.85rem; pointer-events: none; }
-.search-wrap input { padding-left: 34px; }
+  /* HORIZONTAL BAR */
+  .hbar-row { display: flex; align-items: center; gap: 10px; margin: 5px 0; }
+  .hbar-name { width: 115px; font-size: 11px; color: var(--gray-700); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-shrink: 0; }
+  .hbar-track { flex: 1; background: var(--gray-50); border-radius: 4px; height: 16px; overflow: hidden; }
+  .hbar-fill { height: 100%; border-radius: 4px; }
+  .hbar-pct { width: 46px; font-size: 11px; font-weight: 600; text-align: right; flex-shrink: 0; }
 
-/* INPUTS */
-input[type=text], input[type=date], input[type=number], input[type=email],
-input[type=tel], select, textarea {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  color: var(--text);
-  font-family: var(--font-b);
-  font-size: 0.85rem;
-  padding: 9px 12px;
-  outline: none;
-  border-radius: var(--r);
-  transition: border-color .2s;
-  width: 100%;
-}
-input:focus, select:focus, textarea:focus { border-color: var(--gold); background: var(--surface); }
-select option { background: var(--panel); }
-textarea { resize: vertical; min-height: 72px; }
+  /* FOOTER */
+  .report-footer { border-top: 1px solid var(--border); padding-top: 12px; display: flex; justify-content: space-between; font-size: 10px; color: var(--gray-500); margin-top: 8px; }
 
-/* FORM CARD */
-.form-card {
-  background: var(--card);
-  border: 1px solid var(--border2);
-  border-radius: var(--r);
-  padding: 1.5rem;
-  margin-bottom: 1.2rem;
-}
-.form-sec-title {
-  font-family: var(--font-m);
-  font-size: 0.62rem;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.form-sec-title::after { content:''; flex:1; height:1px; background: var(--border2); }
-.form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
-.form-group { display: flex; flex-direction: column; gap: 5px; }
-.form-group.full { grid-column: 1/-1; }
-label { font-size: 0.65rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted2); font-weight: 500; }
+  /* NO DATA */
+  .no-data-state { text-align: center; padding: 48px 20px; color: var(--gray-500); }
+  .no-data-state .icon { font-size: 32px; margin-bottom: 10px; opacity: 0.4; }
+  .no-data-state p { font-size: 13px; }
 
-/* TABLE */
-.table-wrap { overflow-x: auto; border: 1px solid var(--border2); border-radius: var(--r); }
-table { width: 100%; border-collapse: collapse; min-width: 700px; }
-thead { background: var(--panel); }
-th {
-  font-family: var(--font-m);
-  font-size: 0.6rem;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--muted);
-  padding: 10px 12px;
-  text-align: left;
-  border-bottom: 2px solid var(--gold);
-  white-space: nowrap;
-}
-td { padding: 10px 12px; font-size: 0.81rem; border-bottom: 1px solid var(--border2); vertical-align: top; }
-tr:hover td { background: rgba(201,168,76,0.03); }
-tr:last-child td { border-bottom: none; }
-.file-num { font-family: var(--font-m); color: var(--gold); font-weight: 600; font-size: 0.78rem; }
-.inv-num { font-family: var(--font-m); color: var(--blue); font-weight: 600; font-size: 0.78rem; }
-
-/* BADGE */
-.badge {
-  display: inline-block;
-  font-family: var(--font-m);
-  font-size: 0.6rem;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  padding: 3px 9px;
-  border-radius: 20px;
-  font-weight: 600;
-  white-space: nowrap;
-}
-.b-done { background: rgba(62,207,142,0.12); color: var(--green); border: 1px solid rgba(62,207,142,0.25); }
-.b-transit { background: rgba(91,141,238,0.12); color: var(--blue); border: 1px solid rgba(91,141,238,0.25); }
-.b-pend { background: rgba(201,168,76,0.12); color: var(--gold); border: 1px solid rgba(201,168,76,0.25); }
-.b-issue { background: rgba(224,82,82,0.12); color: var(--red); border: 1px solid rgba(224,82,82,0.25); }
-.b-purple { background: rgba(167,139,250,0.12); color: var(--purple); border: 1px solid rgba(167,139,250,0.25); }
-.b-neutral { background: rgba(255,255,255,0.05); color: var(--muted2); border: 1px solid var(--border); }
-
-/* ATTACH */
-.attach-area {
-  border: 2px dashed var(--border);
-  border-radius: var(--r);
-  padding: 14px;
-  cursor: pointer;
-  text-align: center;
-  transition: border-color .2s;
-  background: var(--panel);
-  position: relative;
-}
-.attach-area:hover { border-color: var(--gold); }
-.attach-area input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
-.attach-label { font-size: 0.72rem; color: var(--muted2); }
-.attach-label strong { color: var(--gold); }
-.attach-list { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }
-.attach-chip {
-  background: rgba(201,168,76,0.08);
-  border: 1px solid rgba(201,168,76,0.2);
-  border-radius: 4px;
-  padding: 3px 10px;
-  font-size: 0.68rem;
-  font-family: var(--font-m);
-  color: var(--gold);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.attach-chip button {
-  background: none;
-  border: none;
-  color: var(--muted);
-  cursor: pointer;
-  font-size: 0.8rem;
-  line-height: 1;
-  padding: 0;
-}
-.attach-chip button:hover { color: var(--red); }
-
-/* COMMENTS */
-.comments-section {
-  background: rgba(91,141,238,0.04);
-  border: 1px solid rgba(91,141,238,0.15);
-  border-radius: var(--r);
-  padding: 1rem;
-  margin-top: 0.8rem;
-}
-.comment-title {
-  font-family: var(--font-m);
-  font-size: 0.6rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--blue);
-  margin-bottom: 0.7rem;
-}
-.comment-item {
-  background: var(--panel);
-  border-radius: var(--r);
-  padding: 0.7rem;
-  margin-bottom: 0.5rem;
-  font-size: 0.8rem;
-}
-.comment-meta {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  margin-bottom: 4px;
-}
-.comment-author {
-  font-family: var(--font-m);
-  font-size: 0.65rem;
-  color: var(--gold);
-  font-weight: 600;
-}
-.comment-role {
-  font-family: var(--font-m);
-  font-size: 0.58rem;
-  color: var(--muted);
-  text-transform: uppercase;
-}
-.comment-time { font-size: 0.65rem; color: var(--muted); margin-left: auto; }
-.comment-text { color: var(--text2); line-height: 1.5; }
-.comment-add { display: flex; gap: 0.5rem; margin-top: 0.7rem; }
-.comment-add textarea { min-height: 50px; font-size: 0.8rem; }
-
-/* MODAL */
-.modal-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.75);
-  z-index: 200;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 2rem 1rem;
-  overflow-y: auto;
-}
-.modal-overlay.open { display: flex; }
-.modal {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-top: 3px solid var(--red-brand);
-  padding: 2rem;
-  width: 100%;
-  max-width: 760px;
-  border-radius: var(--r);
-  position: relative;
-  margin: auto;
-  animation: fadeUp 0.25s ease;
-}
-.modal-hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
-.modal-title { font-family: var(--font-h); font-size: 1.5rem; letter-spacing: 2px; }
-.close-x { background: none; border: none; color: var(--muted2); font-size: 1.2rem; cursor: pointer; transition: color .2s; }
-.close-x:hover { color: var(--red); }
-.modal-footer { display: flex; justify-content: flex-end; gap: 0.8rem; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border2); }
-
-/* TOAST */
-#toast {
-  position: fixed;
-  bottom: 1.5rem;
-  right: 1.5rem;
-  background: var(--green);
-  color: #07120e;
-  font-family: var(--font-m);
-  font-size: 0.78rem;
-  font-weight: 600;
-  padding: 12px 20px;
-  border-radius: var(--r);
-  transform: translateY(80px);
-  opacity: 0;
-  transition: all .3s;
-  z-index: 999;
-}
-#toast.show { transform: translateY(0); opacity: 1; }
-#toast.err { background: var(--red); color: #fff; }
-
-/* EMPTY */
-.empty { text-align: center; padding: 3.5rem 1rem; color: var(--muted); }
-.empty .e-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
-.empty p { font-size: 0.85rem; }
-
-/* ADMIN COMMENTS PANEL */
-.admin-comment-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  background: rgba(91,141,238,0.1);
-  border: 1px solid rgba(91,141,238,0.25);
-  color: var(--blue);
-  font-size: 0.68rem;
-  font-family: var(--font-m);
-  padding: 4px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all .15s;
-}
-.admin-comment-btn:hover { background: rgba(91,141,238,0.2); }
-
-/* NOTIFICATION BELL */
-.notif-bell {
-  position: relative;
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--muted2);
-  width: 36px; height: 36px;
-  border-radius: var(--r);
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1rem;
-  transition: all .2s;
-}
-.notif-bell:hover { border-color: var(--gold); color: var(--gold); }
-.notif-bell .badge-count {
-  position: absolute;
-  top: -6px; right: -6px;
-  background: var(--red);
-  color: #fff;
-  font-family: var(--font-m);
-  font-size: 0.58rem;
-  font-weight: 700;
-  min-width: 16px; height: 16px;
-  border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  padding: 0 3px;
-  animation: popIn .3s ease;
-}
-@keyframes popIn { from{transform:scale(0)} to{transform:scale(1)} }
-
-/* NOTIFICATION PANEL */
-.notif-panel {
-  position: fixed;
-  top: 64px; right: 1rem;
-  width: 360px;
-  max-height: 480px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-top: 3px solid var(--gold);
-  border-radius: var(--r);
-  z-index: 300;
-  display: none;
-  flex-direction: column;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-  animation: fadeUp .2s ease;
-}
-.notif-panel.open { display: flex; }
-.notif-hdr {
-  padding: 12px 14px;
-  border-bottom: 1px solid var(--border2);
-  display: flex; align-items: center; justify-content: space-between;
-}
-.notif-hdr-title {
-  font-family: var(--font-m);
-  font-size: 0.65rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--gold);
-}
-.notif-mark-all {
-  background: none; border: none;
-  color: var(--muted2); font-size: 0.68rem;
-  cursor: pointer; font-family: var(--font-b);
-}
-.notif-mark-all:hover { color: var(--gold); }
-.notif-list { overflow-y: auto; flex: 1; }
-.notif-item {
-  padding: 12px 14px;
-  border-bottom: 1px solid var(--border2);
-  cursor: pointer;
-  transition: background .15s;
-  position: relative;
-}
-.notif-item:hover { background: rgba(201,168,76,0.05); }
-.notif-item.unread { background: rgba(91,141,238,0.06); }
-.notif-item.unread::before {
-  content:'';
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 3px;
-  background: var(--blue);
-  border-radius: 0 2px 2px 0;
-}
-.notif-from {
-  font-family: var(--font-m);
-  font-size: 0.62rem;
-  color: var(--gold);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 3px;
-  display: flex; align-items: center; gap: 6px;
-}
-.notif-msg {
-  font-size: 0.8rem;
-  color: var(--text2);
-  line-height: 1.4;
-  margin-bottom: 4px;
-}
-.notif-ref {
-  font-family: var(--font-m);
-  font-size: 0.62rem;
-  color: var(--muted);
-}
-.notif-time { font-size: 0.65rem; color: var(--muted); margin-left: auto; }
-.notif-empty {
-  padding: 2rem;
-  text-align: center;
-  color: var(--muted);
-  font-size: 0.82rem;
-}
-
-/* COMMENT THREAD — visible to all */
-.comment-thread {
-  background: rgba(91,141,238,0.04);
-  border: 1px solid rgba(91,141,238,0.15);
-  border-radius: var(--r);
-  padding: 1rem;
-  margin-bottom: 1rem;
-}
-.ct-header {
-  font-family: var(--font-m);
-  font-size: 0.6rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--blue);
-  margin-bottom: 0.7rem;
-  display: flex; align-items: center; gap: 8px;
-}
-.ct-msg {
-  background: var(--panel);
-  border-radius: 4px;
-  padding: 0.7rem;
-  margin-bottom: 0.5rem;
-}
-.ct-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; flex-wrap: wrap; }
-.ct-author { font-family: var(--font-m); font-size: 0.65rem; font-weight: 600; }
-.ct-author.is-admin { color: var(--gold); }
-.ct-author.is-dept { color: var(--green); }
-.ct-role { font-size: 0.6rem; color: var(--muted); font-family: var(--font-m); text-transform: uppercase; }
-.ct-time { font-size: 0.62rem; color: var(--muted); margin-left: auto; }
-.ct-text { font-size: 0.8rem; color: var(--text2); line-height: 1.5; }
-.ct-reply-row { display: flex; gap: 0.5rem; margin-top: 0.7rem; align-items: flex-end; }
-.ct-reply-row textarea { min-height: 44px; font-size: 0.78rem; }
-
-/* Read-only notice */
-.read-only-notice {
-  background: rgba(167,139,250,0.07);
-  border: 1px solid rgba(167,139,250,0.2);
-  border-radius: var(--r);
-  padding: 10px 14px;
-  font-size: 0.78rem;
-  color: var(--purple);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 1.2rem;
-}
-
-/* Attachment preview in table */
-.att-count {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 0.68rem;
-  color: var(--gold);
-  font-family: var(--font-m);
-}
-
-/* detail expand row */
-.detail-row { display: none; }
-.detail-row.open { display: table-row; }
-.detail-row td { background: rgba(201,168,76,0.03); border-bottom: 1px solid var(--border2); }
-
-@media(max-width:768px){
-  .sidebar{display:none;}
-  .stats-row{grid-template-columns:repeat(2,1fr);}
-}
-
-/* HEXAGON PATTERN */
-.hex-bg {
-  position: relative;
-}
-.hex-bg::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='92' viewBox='0 0 80 92'%3E%3Cpolygon points='40,2 76,22 76,62 40,82 4,62 4,22' fill='none' stroke='rgba(255,255,255,0.06)' stroke-width='1.5'/%3E%3C/svg%3E");
-  background-size: 80px 92px;
-  pointer-events: none;
-  z-index: 0;
-}
-.hex-bg > * { position: relative; z-index: 1; }
-
-/* login-screen hex via background-image layering */
-
-/* Sidebar and header use background-image layering for hex pattern */
-.app-header { position: relative; overflow: hidden; }
-
+  /* PRINT BUTTON */
+  .action-bar { display: flex; gap: 8px; margin-bottom: 18px; justify-content: flex-end; }
+  .btn { padding: 7px 16px; font-size: 12px; border-radius: 6px; cursor: pointer; border: 1px solid var(--border); background: var(--surface); color: var(--gray-700); font-family: var(--font-sans); transition: all 0.15s; }
+  .btn:hover { background: var(--gray-50); }
+  .btn.primary { background: var(--teal-mid); color: white; border-color: var(--teal-mid); }
+  .btn.primary:hover { background: var(--teal-dark); }
 </style>
 </head>
 <body>
-
-<!-- ============ LOGIN ============ -->
-<div id="login-screen">
-  <div class="login-box">
-    <div class="login-logo">
-      <img src="data:image/png;base64,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" alt="LGT Logistics" style="height:80px; object-fit:contain; margin-bottom:6px;">
-      <div class="login-sub">OPERATIONS PORTAL</div>
-    </div>
-    <div class="login-group">
-      <span class="login-label">Full Name</span>
-      <input class="login-input" id="l-name" type="text" placeholder="Enter your name">
-    </div>
-    <div class="login-group">
-      <span class="login-label">Department / Role</span>
-      <select class="login-select" id="l-role">
-        <option value="">— Select your department —</option>
-        <optgroup label="ADMINISTRATION">
-          <option value="ADMIN">GM / Director of Operations (MASTER)</option>
-          <option value="ADMIN_OFFICER">Administration Officer</option>
-        </optgroup>
-        <optgroup label="OPERATIONS">
-          <option value="OPERATIONS">Operations Manager</option>
-        </optgroup>
-        <optgroup label="DECLARATIONS">
-          <option value="DECL_ARU">Declarations – Arusha</option>
-          <option value="DECL_DAR">Declarations – Dar es Salaam</option>
-        </optgroup>
-        <optgroup label="TRANSPORT">
-          <option value="TRANSPORT">Transport (OPM)</option>
-        </optgroup>
-        <optgroup label="FINANCE">
-          <option value="FINANCE">Finance / Invoices</option>
-        </optgroup>
-        <optgroup label="QUOTATIONS">
-          <option value="QUOTATIONS">Quotations</option>
-        </optgroup>
-      </select>
-    </div>
-    <div class="login-group">
-      <span class="login-label">Access PIN</span>
-      <input class="login-input" id="l-pin" type="password" placeholder="Enter department PIN" onkeydown="if(event.key==='Enter')doLogin()">
-    </div>
-    <button class="login-btn" onclick="doLogin()">ACCESS PORTAL</button>
-    <div class="login-err" id="login-err">⚠ Incorrect PIN. Please try again.</div>
-    <div style="margin-top:1.2rem;font-size:0.68rem;color:var(--muted);text-align:center;font-family:var(--font-m);">
-      Default PINs → Admin: <strong style="color:#ff4d5e">1234</strong> &nbsp;|&nbsp; Depts: <strong style="color:#ff4d5e">0000</strong>
-    </div>
-  </div>
-</div>
-
-<!-- ============ APP ============ -->
-<div id="app" style="display:none; flex-direction:column; height:100vh;">
+<div class="page-wrap">
 
   <!-- HEADER -->
-  <div class="app-header">
-    <div class="h-logo">
-      <img src="data:image/png;base64,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" alt="LGT Logistics" style="height:38px; object-fit:contain;">
-      <div class="h-title" style="border-left:1px solid rgba(255,255,255,0.15); padding-left:12px;">OPERATIONS PORTAL</div>
+  <div class="report-header">
+    <div class="company-block">
+      <div class="company-name">EDR</div>
+      <div class="report-title"> · Collections Performance Report</div>
     </div>
-    <div class="h-right">
-      <span class="user-chip" id="h-user">—</span>
-      <span class="role-chip" id="h-role">—</span>
-      <button class="notif-bell" id="notif-bell-btn" onclick="toggleNotifPanel()" title="Notifications">
-        🔔
-        <span class="badge-count" id="notif-count" style="display:none">0</span>
-      </button>
-      <button class="logout-btn" onclick="doLogout()">⏻ Logout</button>
+    <div class="header-right">
+      <div class="period-badge" id="activeBadge">MAY 2026</div>
+      <div class="header-meta">Report generated: <span id="genDate"></span></div>
+      <div class="header-meta"> All figures in TZS</div>
     </div>
   </div>
 
-  <div class="app-body">
-    <!-- SIDEBAR -->
-    <div class="sidebar" id="sidebar">
-      <div class="nav-section-label">Navigation</div>
-      <!-- items injected by JS -->
-    </div>
-
-    <!-- CONTENT -->
-    <div class="content">
-
-      <!-- ===== MASTER DASHBOARD (ADMIN) ===== -->
-      <div id="sec-dashboard" class="dept-section">
-        <div class="page-hdr">
-          <div class="page-title">MASTER <span>DASHBOARD</span></div>
-        </div>
-        <div class="stats-row">
-          <div class="stat-card"><div class="stat-label">Total Files</div><div class="stat-val" id="ms-total">0</div></div>
-          <div class="stat-card"><div class="stat-label">In Transit</div><div class="stat-val" id="ms-transit" style="color:var(--blue)">0</div></div>
-          <div class="stat-card"><div class="stat-label">Delivered</div><div class="stat-val" id="ms-delivered" style="color:var(--green)">0</div></div>
-          <div class="stat-card"><div class="stat-label">Declarations Pending</div><div class="stat-val" id="ms-decl" style="color:var(--red)">0</div></div>
-          <div class="stat-card"><div class="stat-label">Invoices Outstanding</div><div class="stat-val" id="ms-inv" style="color:var(--gold)">0</div></div>
-          <div class="stat-card"><div class="stat-label">Total Invoiced</div><div class="stat-val" id="ms-amt" style="font-size:1.2rem;">0</div><div class="stat-sub">cumulative</div></div>
-        </div>
-
-        <!-- All-depts overview tables -->
-        <div class="form-card">
-          <div class="form-sec-title">All Shipment Files</div>
-          <div class="toolbar">
-            <div class="search-wrap"><span class="search-icon">🔍</span><input id="adm-search" oninput="renderAdminTable()" placeholder="Search..."></div>
-            <button class="btn btn-ghost btn-sm" onclick="exportCSV()">⬇ Export CSV</button>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>File #</th><th>Date</th><th>Client</th><th>Route</th><th>Mode</th><th>Branch</th><th>Decl.</th><th>Border</th><th>Delivery</th><th>Invoice</th><th>Finance</th><th>Docs</th><th>Comment</th></tr></thead>
-              <tbody id="adm-tbody"></tbody>
-            </table>
-          </div>
-          <div class="empty" id="adm-empty" style="display:none"><div class="e-icon">📦</div><p>No shipment files yet.</p></div>
-        </div>
-      </div>
-
-      <!-- ===== OPERATIONS / MASTER TRACKER ===== -->
-      <div id="sec-tracker" class="dept-section">
-        <div class="page-hdr">
-          <div class="page-title">SHIPMENT <span>FILES</span></div>
-          <div style="display:flex;gap:.8rem;flex-wrap:wrap">
-            <button class="btn btn-ghost btn-sm" onclick="exportCSV()">⬇ Export CSV</button>
-            <button class="btn btn-primary" onclick="openModal('shipment-modal')">+ New File</button>
-          </div>
-        </div>
-        <div class="stats-row">
-          <div class="stat-card"><div class="stat-label">Total</div><div class="stat-val" id="tr-total">0</div></div>
-          <div class="stat-card"><div class="stat-label">In Transit</div><div class="stat-val" id="tr-transit" style="color:var(--blue)">0</div></div>
-          <div class="stat-card"><div class="stat-label">Delivered</div><div class="stat-val" id="tr-delivered" style="color:var(--green)">0</div></div>
-          <div class="stat-card"><div class="stat-label">On Hold</div><div class="stat-val" id="tr-hold" style="color:var(--red)">0</div></div>
-        </div>
-        <div class="toolbar">
-          <div class="search-wrap"><span class="search-icon">🔍</span><input id="tr-search" oninput="renderTrackerTable()" placeholder="Search file, client, truck..."></div>
-          <select id="tr-filter-status" onchange="renderTrackerTable()" style="width:160px">
-            <option value="">All Status</option>
-            <option>Pending</option><option>In Transit</option><option>Delivered</option><option>On Hold</option>
-          </select>
-        </div>
-        <div class="table-wrap">
-          <table><thead><tr>
-            <th>File #</th><th>Date</th><th>Client</th><th>Route</th><th>Mode</th><th>Branch</th><th>Driver/Truck</th><th>Delivery</th><th>Invoice</th><th>Docs</th><th>Actions</th>
-          </tr></thead><tbody id="tr-tbody"></tbody></table>
-        </div>
-        <div class="empty" id="tr-empty" style="display:none"><div class="e-icon">📦</div><p>No records. Click <strong>+ New File</strong>.</p></div>
-      </div>
-
-      <!-- ===== DECLARATIONS ===== -->
-      <div id="sec-declarations" class="dept-section">
-        <div class="page-hdr">
-          <div class="page-title">DECLARATIONS <span>LOG</span></div>
-          <button class="btn btn-primary" id="decl-add-btn" onclick="openModal('decl-modal')">+ New Declaration</button>
-        </div>
-        <div id="decl-readonly-notice" class="read-only-notice" style="display:none">
-          👁 You are viewing in read-only mode. Contact your branch admin to make changes.
-        </div>
-        <div class="table-wrap">
-          <table><thead><tr>
-            <th>File #</th><th>Client</th><th>Branch</th><th>Officer</th><th>Status</th><th>Remarks</th><th>Docs</th><th>Actions</th>
-          </tr></thead><tbody id="decl-tbody"></tbody></table>
-        </div>
-        <div class="empty" id="decl-empty" style="display:none"><div class="e-icon">📋</div><p>No declarations yet.</p></div>
-      </div>
-
-      <!-- ===== TRANSPORT ===== -->
-      <div id="sec-transport" class="dept-section">
-        <div class="page-hdr">
-          <div class="page-title">TRANSPORT <span>TRACKER</span></div>
-          <button class="btn btn-primary" onclick="openModal('trans-modal')">+ New Transport Entry</button>
-        </div>
-        <div class="stats-row">
-          <div class="stat-card"><div class="stat-label">Active Trucks</div><div class="stat-val" id="tp-active" style="color:var(--blue)">0</div></div>
-          <div class="stat-card"><div class="stat-label">Delivered</div><div class="stat-val" id="tp-done" style="color:var(--green)">0</div></div>
-          <div class="stat-card"><div class="stat-label">At Border</div><div class="stat-val" id="tp-border" style="color:var(--gold)">0</div></div>
-        </div>
-        <div class="table-wrap">
-          <table><thead><tr>
-            <th>File #</th><th>Client</th><th>Truck Type</th><th>Truck #</th><th>Driver</th><th>Route</th><th>Border</th><th>Delivery</th><th>Date</th><th>Docs</th><th>Actions</th>
-          </tr></thead><tbody id="tp-tbody"></tbody></table>
-        </div>
-        <div class="empty" id="tp-empty" style="display:none"><div class="e-icon">🚛</div><p>No transport records yet.</p></div>
-      </div>
-
-      <!-- ===== INVOICES ===== -->
-      <div id="sec-invoices" class="dept-section">
-        <div class="page-hdr">
-          <div class="page-title">INVOICE <span>MANAGEMENT</span></div>
-          <button class="btn btn-primary" onclick="openModal('inv-modal')">+ New Invoice</button>
-        </div>
-        <div class="stats-row">
-          <div class="stat-card"><div class="stat-label">Total Invoiced</div><div class="stat-val" id="inv-total" style="font-size:1.2rem;">0</div></div>
-          <div class="stat-card"><div class="stat-label">Paid</div><div class="stat-val" id="inv-paid" style="color:var(--green)">0</div></div>
-          <div class="stat-card"><div class="stat-label">Outstanding</div><div class="stat-val" id="inv-out" style="color:var(--red)">0</div></div>
-        </div>
-        <div class="table-wrap">
-          <table><thead><tr>
-            <th>Invoice #</th><th>File #</th><th>Client</th><th>Amount</th><th>Invoice Status</th><th>Finance Status</th><th>Last Update</th><th>Docs / Receipts</th><th>Actions</th>
-          </tr></thead><tbody id="inv-tbody"></tbody></table>
-        </div>
-        <div class="empty" id="inv-empty" style="display:none"><div class="e-icon">💰</div><p>No invoices yet.</p></div>
-      </div>
-
-      <!-- ===== QUOTATIONS ===== -->
-      <div id="sec-quotations" class="dept-section">
-        <div class="page-hdr">
-          <div class="page-title">QUOTATION <span>REQUESTS</span></div>
-          <button class="btn btn-primary" onclick="openModal('quot-modal')">+ New Quotation</button>
-        </div>
-        <div class="table-wrap">
-          <table><thead><tr>
-            <th>Date</th><th>Client</th><th>Contact</th><th>Route</th><th>Mode</th><th>Cargo</th><th>Quoted</th><th>Status</th><th>Docs</th><th>Actions</th>
-          </tr></thead><tbody id="quot-tbody"></tbody></table>
-        </div>
-        <div class="empty" id="quot-empty" style="display:none"><div class="e-icon">📝</div><p>No quotations yet.</p></div>
-      </div>
-
-    </div><!-- /content -->
-  </div><!-- /app-body -->
-</div><!-- /app -->
-
-<!-- NOTIFICATION PANEL -->
-<div class="notif-panel" id="notif-panel">
-  <div class="notif-hdr">
-    <span class="notif-hdr-title">🔔 GM Instructions</span>
-    <button class="notif-mark-all" onclick="markAllRead()">Mark all read</button>
+  <!-- ACTION BAR -->
+  <div class="action-bar no-print">
+    <button class="btn" onclick="window.print()">⎙ Print / Save PDF</button>
   </div>
-  <div class="notif-list" id="notif-list">
-    <div class="notif-empty">No notifications yet.</div>
+
+  <!-- MONTH TABS -->
+  <div class="month-tabs" id="monthTabs"></div>
+
+  <!-- DYNAMIC CONTENT -->
+  <div id="reportContent"></div>
+
+  <!-- TREND SECTION (always shown) -->
+  <div id="trendSection"></div>
+
+  <!-- FOOTER -->
+  <div class="report-footer">
+    <span>Habari Telecom · EDR Department · Confidential</span>
+    <span id="footerMonth"></span>
   </div>
+
 </div>
-
-<!-- ============ MODALS ============ -->
-
-<!-- SHIPMENT -->
-<div class="modal-overlay" id="shipment-modal">
-  <div class="modal">
-    <div class="modal-hdr">
-      <div class="modal-title">NEW SHIPMENT FILE</div>
-      <button class="close-x" onclick="closeModal('shipment-modal')">✕</button>
-    </div>
-    <div class="form-sec-title">Client Information</div>
-    <div class="form-grid">
-      <div class="form-group"><label>File Number *</label><input id="f-filenum" placeholder="e.g. LGT-2026-001"></div>
-      <div class="form-group"><label>Date Received *</label><input type="date" id="f-date"></div>
-      <div class="form-group"><label>Client Name *</label><input id="f-client" placeholder="Company or individual"></div>
-      <div class="form-group"><label>Client Contact</label><input id="f-contact" placeholder="+255 ..."></div>
-    </div>
-    <div class="form-sec-title" style="margin-top:1.2rem">Route & Cargo</div>
-    <div class="form-grid">
-      <div class="form-group"><label>Origin</label><input id="f-origin" placeholder="e.g. Mombasa"></div>
-      <div class="form-group"><label>Entry Point</label><input id="f-entry" placeholder="e.g. Namanga, Holili"></div>
-      <div class="form-group"><label>Destination</label><input id="f-dest" placeholder="e.g. Arusha"></div>
-      <div class="form-group"><label>Branch Handling</label>
-        <select id="f-branch"><option value="">Select</option><option>Arusha</option><option>Dar es Salaam</option><option>Mombasa</option><option>Nairobi</option></select></div>
-      <div class="form-group"><label>Mode</label>
-        <select id="f-mode"><option value="">Select</option><option>Sea</option><option>Road</option><option>Air</option></select></div>
-      <div class="form-group full"><label>Cargo Description</label><textarea id="f-cargo" placeholder="Describe goods..."></textarea></div>
-    </div>
-    <div class="form-sec-title" style="margin-top:1.2rem">Customs</div>
-    <div class="form-grid">
-      <div class="form-group"><label>Declaration Officer</label><input id="f-officer" placeholder="Officer name"></div>
-      <div class="form-group"><label>Declaration Status</label>
-        <select id="f-declstatus"><option value="">Select</option><option>Pending</option><option>In Progress</option><option>Cleared</option><option>Issue</option></select></div>
-    </div>
-    <div class="form-sec-title" style="margin-top:1.2rem">Transport</div>
-    <div class="form-grid">
-      <div class="form-group"><label>Truck Type</label>
-        <select id="f-trucktype"><option value="">Select</option><option>Company</option><option>Hired</option></select></div>
-      <div class="form-group"><label>Truck Number</label><input id="f-trucknum" placeholder="e.g. T 123 ABC"></div>
-      <div class="form-group"><label>Driver Name</label><input id="f-driver" placeholder="Driver full name"></div>
-      <div class="form-group"><label>Border Status</label>
-        <select id="f-border"><option value="">Select</option><option>Approaching</option><option>At Border</option><option>Cleared</option><option>Crossed</option></select></div>
-    </div>
-    <div class="form-sec-title" style="margin-top:1.2rem">Delivery & Finance</div>
-    <div class="form-grid">
-      <div class="form-group"><label>Delivery Status</label>
-        <select id="f-delivery"><option value="">Select</option><option>Pending</option><option>In Transit</option><option>Delivered</option><option>On Hold</option></select></div>
-      <div class="form-group"><label>Delivery Date</label><input type="date" id="f-delivdate"></div>
-      <div class="form-group"><label>Invoice Number</label><input id="f-invnum" placeholder="INV-2026-001"></div>
-      <div class="form-group"><label>Invoice Amount</label><input type="number" id="f-invamt" placeholder="0.00"></div>
-      <div class="form-group"><label>Invoice Status</label>
-        <select id="f-invstatus"><option value="">Select</option><option>Not Issued</option><option>Issued</option><option>Partial</option><option>Paid</option></select></div>
-      <div class="form-group"><label>Finance Status</label>
-        <select id="f-finstatus"><option value="">Select</option><option>Pending</option><option>Reconciled</option><option>Outstanding</option><option>Written Off</option></select></div>
-      <div class="form-group"><label>Last Client Update</label><input type="date" id="f-lastupd"></div>
-      <div class="form-group full"><label>Remarks</label><textarea id="f-remarks" placeholder="Additional notes..."></textarea></div>
-    </div>
-    <div class="form-sec-title" style="margin-top:1.2rem">Supporting Documents</div>
-    <div class="attach-area" id="f-attach-area" onclick="document.getElementById('f-files').click()">
-      <input type="file" id="f-files" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx" onchange="handleFiles('f','shipment')" style="display:none">
-      <div class="attach-label">📎 Click to attach documents<br><strong>PDF, Images, Word, Excel</strong> supported</div>
-    </div>
-    <div class="attach-list" id="f-attach-list"></div>
-    <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal('shipment-modal')">Cancel</button>
-      <button class="btn btn-primary" onclick="saveShipment()">Save File</button>
-    </div>
-  </div>
-</div>
-
-<!-- DECLARATION -->
-<div class="modal-overlay" id="decl-modal">
-  <div class="modal">
-    <div class="modal-hdr"><div class="modal-title">DECLARATION ENTRY</div><button class="close-x" onclick="closeModal('decl-modal')">✕</button></div>
-    <div class="form-grid">
-      <div class="form-group"><label>File Number</label><input id="d-filenum" placeholder="LGT-2026-..."></div>
-      <div class="form-group"><label>Client Name</label><input id="d-client"></div>
-      <div class="form-group"><label>Branch</label>
-        <select id="d-branch"><option value="">Select</option><option>Arusha</option><option>Dar es Salaam</option><option>Mombasa</option></select></div>
-      <div class="form-group"><label>Declaration Officer</label><input id="d-officer"></div>
-      <div class="form-group"><label>Declaration Status</label>
-        <select id="d-status"><option value="">Select</option><option>Pending</option><option>In Progress</option><option>Cleared</option><option>Issue</option></select></div>
-      <div class="form-group full"><label>Remarks</label><textarea id="d-remarks"></textarea></div>
-    </div>
-    <div class="form-sec-title" style="margin-top:1.2rem">Supporting Documents</div>
-    <div class="attach-area" onclick="document.getElementById('d-files').click()">
-      <input type="file" id="d-files" multiple onchange="handleFiles('d','decl')" style="display:none">
-      <div class="attach-label">📎 Attach declarations, permits, customs docs</div>
-    </div>
-    <div class="attach-list" id="d-attach-list"></div>
-    <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal('decl-modal')">Cancel</button>
-      <button class="btn btn-primary" onclick="saveDecl()">Save</button>
-    </div>
-  </div>
-</div>
-
-<!-- TRANSPORT -->
-<div class="modal-overlay" id="trans-modal">
-  <div class="modal">
-    <div class="modal-hdr"><div class="modal-title">TRANSPORT ENTRY</div><button class="close-x" onclick="closeModal('trans-modal')">✕</button></div>
-    <div class="form-grid">
-      <div class="form-group"><label>File Number</label><input id="t-filenum"></div>
-      <div class="form-group"><label>Client Name</label><input id="t-client"></div>
-      <div class="form-group"><label>Truck Type</label>
-        <select id="t-trucktype"><option value="">Select</option><option>Company</option><option>Hired</option></select></div>
-      <div class="form-group"><label>Truck Number</label><input id="t-trucknum"></div>
-      <div class="form-group"><label>Driver Name</label><input id="t-driver"></div>
-      <div class="form-group"><label>Origin</label><input id="t-origin"></div>
-      <div class="form-group"><label>Destination</label><input id="t-dest"></div>
-      <div class="form-group"><label>Border Status</label>
-        <select id="t-border"><option value="">Select</option><option>Approaching</option><option>At Border</option><option>Cleared</option><option>Crossed</option></select></div>
-      <div class="form-group"><label>Delivery Status</label>
-        <select id="t-delivery"><option value="">Select</option><option>Pending</option><option>In Transit</option><option>Delivered</option><option>On Hold</option></select></div>
-      <div class="form-group"><label>Delivery Date</label><input type="date" id="t-delivdate"></div>
-    </div>
-    <div class="form-sec-title" style="margin-top:1.2rem">Department Remarks</div>
-    <div class="form-group" style="margin-bottom:1rem">
-      <label>Remarks / Updates</label>
-      <textarea id="t-remarks" placeholder="e.g. Truck delayed at border, driver contacted, ETA updated..."></textarea>
-    </div>
-    <div class="form-sec-title" style="margin-top:1.2rem">Supporting Documents</div>
-    <div class="attach-area" onclick="document.getElementById('t-files').click()">
-      <input type="file" id="t-files" multiple onchange="handleFiles('t','trans')" style="display:none">
-      <div class="attach-label">📎 Attach waybills, delivery notes, photos</div>
-    </div>
-    <div class="attach-list" id="t-attach-list"></div>
-    <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal('trans-modal')">Cancel</button>
-      <button class="btn btn-primary" onclick="saveTrans()">Save</button>
-    </div>
-  </div>
-</div>
-
-<!-- INVOICE -->
-<div class="modal-overlay" id="inv-modal">
-  <div class="modal">
-    <div class="modal-hdr"><div class="modal-title">NEW INVOICE</div><button class="close-x" onclick="closeModal('inv-modal')">✕</button></div>
-    <div class="form-grid">
-      <div class="form-group"><label>Invoice Number</label><input id="i-invnum" placeholder="INV-2026-001"></div>
-      <div class="form-group"><label>File Number</label><input id="i-filenum" placeholder="LGT-2026-..."></div>
-      <div class="form-group"><label>Client Name</label><input id="i-client"></div>
-      <div class="form-group"><label>Amount (TZS/USD)</label><input type="number" id="i-amount" placeholder="0.00"></div>
-      <div class="form-group"><label>Invoice Status</label>
-        <select id="i-invstatus"><option value="">Select</option><option>Not Issued</option><option>Issued</option><option>Partial</option><option>Paid</option></select></div>
-      <div class="form-group"><label>Finance Status</label>
-        <select id="i-finstatus"><option value="">Select</option><option>Pending</option><option>Reconciled</option><option>Outstanding</option><option>Written Off</option></select></div>
-      <div class="form-group"><label>Last Client Update</label><input type="date" id="i-lastupd"></div>
-      <div class="form-group full"><label>Notes</label><textarea id="i-notes" placeholder="Payment notes, bank details..."></textarea></div>
-    </div>
-    <div class="form-sec-title" style="margin-top:1.2rem">Department Remarks</div>
-    <div class="form-group" style="margin-bottom:1rem">
-      <label>Finance Remarks / Updates</label>
-      <textarea id="i-remarks" placeholder="e.g. Partial payment received, balance pending, client promised payment by..."></textarea>
-    </div>
-    <div class="form-sec-title" style="margin-top:1.2rem">Receipts & Payment Proof</div>
-    <div class="attach-area" onclick="document.getElementById('i-files').click()">
-      <input type="file" id="i-files" multiple onchange="handleFiles('i','inv')" style="display:none">
-      <div class="attach-label">📎 Attach receipts, bank slips, payment confirmations<br><strong>PDF, Images</strong></div>
-    </div>
-    <div class="attach-list" id="i-attach-list"></div>
-    <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal('inv-modal')">Cancel</button>
-      <button class="btn btn-primary" onclick="saveInv()">Save Invoice</button>
-    </div>
-  </div>
-</div>
-
-<!-- QUOTATION -->
-<div class="modal-overlay" id="quot-modal">
-  <div class="modal">
-    <div class="modal-hdr"><div class="modal-title">NEW QUOTATION</div><button class="close-x" onclick="closeModal('quot-modal')">✕</button></div>
-    <div class="form-grid">
-      <div class="form-group"><label>Date</label><input type="date" id="q-date"></div>
-      <div class="form-group"><label>Client Name</label><input id="q-client"></div>
-      <div class="form-group"><label>Client Contact</label><input id="q-contact"></div>
-      <div class="form-group"><label>Origin</label><input id="q-origin"></div>
-      <div class="form-group"><label>Destination</label><input id="q-dest"></div>
-      <div class="form-group"><label>Mode</label>
-        <select id="q-mode"><option value="">Select</option><option>Sea</option><option>Road</option><option>Air</option></select></div>
-      <div class="form-group full"><label>Cargo Description</label><textarea id="q-cargo"></textarea></div>
-      <div class="form-group"><label>Quoted Amount</label><input type="number" id="q-amount" placeholder="0.00"></div>
-      <div class="form-group"><label>Status</label>
-        <select id="q-status"><option value="">Select</option><option>New Request</option><option>Quoted</option><option>Accepted</option><option>Declined</option></select></div>
-    </div>
-    <div class="form-sec-title" style="margin-top:1.2rem">Department Remarks</div>
-    <div class="form-group" style="margin-bottom:1rem">
-      <label>Quotation Remarks / Notes</label>
-      <textarea id="q-remarks" placeholder="e.g. Client requested expedited shipping, special handling required..."></textarea>
-    </div>
-    <div class="form-sec-title" style="margin-top:1.2rem">Supporting Documents</div>
-    <div class="attach-area" onclick="document.getElementById('q-files').click()">
-      <input type="file" id="q-files" multiple onchange="handleFiles('q','quot')" style="display:none">
-      <div class="attach-label">📎 Attach rate sheets, client requests, packing lists</div>
-    </div>
-    <div class="attach-list" id="q-attach-list"></div>
-    <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal('quot-modal')">Cancel</button>
-      <button class="btn btn-primary" onclick="saveQuot()">Save Quotation</button>
-    </div>
-  </div>
-</div>
-
-<!-- COMMENT MODAL -->
-<div class="modal-overlay" id="comment-modal">
-  <div class="modal" style="max-width:600px;">
-    <div class="modal-hdr">
-      <div class="modal-title">💬 INSTRUCTIONS <span style="color:var(--gold);font-size:0.85rem;font-family:var(--font-m)" id="cm-file-label"></span></div>
-      <button class="close-x" onclick="closeModal('comment-modal')">✕</button>
-    </div>
-    <div id="cm-list" style="max-height:400px;overflow-y:auto;"></div>
-    <!-- ADMIN posts new instruction -->
-    <div id="cm-admin-post" style="display:none;margin-top:1rem">
-      <div style="font-family:var(--font-m);font-size:0.6rem;letter-spacing:2px;color:var(--gold);margin-bottom:0.5rem;text-transform:uppercase">Post Instruction / Comment</div>
-      <div style="display:flex;gap:0.5rem;align-items:flex-end">
-        <textarea id="cm-text" placeholder="Write instruction for the department..." style="flex:1;min-height:52px;font-size:0.82rem"></textarea>
-        <button class="btn btn-primary btn-sm" onclick="postComment()">Send</button>
-      </div>
-    </div>
-    <!-- DEPT replies to latest admin comment -->
-    <div id="cm-dept-reply" style="display:none;margin-top:1rem">
-      <div style="font-family:var(--font-m);font-size:0.6rem;letter-spacing:2px;color:var(--green);margin-bottom:0.5rem;text-transform:uppercase">Reply / Acknowledge</div>
-      <div style="display:flex;gap:0.5rem;align-items:flex-end">
-        <textarea id="cm-reply-text" placeholder="Acknowledge or reply to GM instruction..." style="flex:1;min-height:52px;font-size:0.82rem"></textarea>
-        <button class="btn btn-primary btn-sm" style="background:var(--green);color:#0a0a0c" onclick="postReply()">Reply</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- TOAST -->
-<div id="toast"></div>
 
 <script>
 // ============================================================
-// ROLE CONFIG
+// DATA CONFIG — add Jan/Feb/Mar data here when available
 // ============================================================
-const ROLES = {
-  ADMIN:         { label:'GM / Director', pin:'1234', sections:['dashboard','tracker','declarations','transport','invoices','quotations'], canComment:true, canEditAll:true },
-  ADMIN_OFFICER: { label:'Admin Officer', pin:'0000', sections:['tracker'], canComment:false },
-  OPERATIONS:    { label:'Operations Mgr', pin:'0000', sections:['tracker'], canComment:false },
-  DECL_ARU:      { label:'Declarations ARU', pin:'0000', sections:['declarations'], branch:'Arusha', canComment:false },
-  DECL_DAR:      { label:'Declarations DAR', pin:'0000', sections:['declarations'], branch:'Dar es Salaam', canComment:false },
-  TRANSPORT:     { label:'Transport (OPM)', pin:'0000', sections:['transport'], canComment:false },
-  FINANCE:       { label:'Finance', pin:'0000', sections:['invoices'], canComment:false },
-  QUOTATIONS:    { label:'Quotations', pin:'0000', sections:['quotations'], canComment:false },
-};
-
-// Which dept key does each role map to for notifications
-const ROLE_DEPT_MAP = {
-  ADMIN_OFFICER:'tracker', OPERATIONS:'tracker',
-  DECL_ARU:'decl', DECL_DAR:'decl',
-  TRANSPORT:'trans', FINANCE:'inv', QUOTATIONS:'quot'
-};
-
-const NAV_ITEMS = {
-  dashboard:    { icon:'🏠', label:'Master Dashboard' },
-  tracker:      { icon:'📦', label:'Shipment Files' },
-  declarations: { icon:'📋', label:'Declarations' },
-  transport:    { icon:'🚛', label:'Transport Tracker' },
-  invoices:     { icon:'💰', label:'Invoices' },
-  quotations:   { icon:'📝', label:'Quotations' },
-};
-
-// ============================================================
-// STATE
-// ============================================================
-let currentUser = null;
-let currentRole = null;
-let currentSection = null;
-
-let records    = load('lgt-records', []);
-let decls      = load('lgt-decls', []);
-let transports = load('lgt-trans', []);
-let invoices   = load('lgt-invs', []);
-let quotations = load('lgt-quots', []);
-// comments keyed by "dept:recordId" — array of {id, author, role, isAdmin, text, time, readBy:[]}
-let comments   = load('lgt-comments', {});
-// notifications: array of {id, dept, recordId, recordLabel, text, author, time, readBy:[]}
-let notifications = load('lgt-notifications', []);
-
-let tempFiles = {};
-let activeCommentId = null;
-let activeCommentDept = null;
-
-function load(k, def) { try { return JSON.parse(localStorage.getItem(k)) || def; } catch(e){ return def; } }
-function save(k,v){ localStorage.setItem(k, JSON.stringify(v)); }
-
-// ============================================================
-// LOGIN
-// ============================================================
-function doLogin(){
-  const name = document.getElementById('l-name').value.trim();
-  const role = document.getElementById('l-role').value;
-  const pin  = document.getElementById('l-pin').value;
-  const err  = document.getElementById('login-err');
-  if(!name){ err.textContent='⚠ Please enter your name.'; err.style.display='block'; return; }
-  if(!role){ err.textContent='⚠ Please select your department.'; err.style.display='block'; return; }
-  const r = ROLES[role];
-  if(!r || pin !== r.pin){ err.style.display='block'; return; }
-  err.style.display='none';
-  currentUser = name;
-  currentRole = role;
-  startApp();
-}
-
-function startApp(){
-  document.getElementById('login-screen').style.display='none';
-  const app = document.getElementById('app');
-  app.style.display='flex';
-  document.getElementById('h-user').textContent = currentUser;
-  document.getElementById('h-role').textContent = ROLES[currentRole].label;
-  buildSidebar();
-  updateNotifBell();
-  const firstSection = ROLES[currentRole].sections[0];
-  switchSection(firstSection);
-}
-
-function doLogout(){
-  currentUser = null; currentRole = null; currentSection = null;
-  tempFiles = {};
-  document.getElementById('app').style.display='none';
-  document.getElementById('login-screen').style.display='flex';
-  document.getElementById('l-pin').value='';
-  document.getElementById('l-name').value='';
-  document.getElementById('notif-panel').classList.remove('open');
-}
-
-// ============================================================
-// SIDEBAR
-// ============================================================
-function buildSidebar(){
-  const sb = document.getElementById('sidebar');
-  sb.innerHTML = '<div class="nav-section-label">Menu</div>';
-  ROLES[currentRole].sections.forEach(s => {
-    const n = NAV_ITEMS[s];
-    const el = document.createElement('div');
-    el.className = 'nav-item';
-    el.id = 'nav-'+s;
-    el.innerHTML = `<span class="nav-icon">${n.icon}</span>${n.label}`;
-    el.onclick = ()=>switchSection(s);
-    sb.appendChild(el);
-  });
-}
-
-function switchSection(s){
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  document.querySelectorAll('.dept-section').forEach(d=>d.classList.remove('active'));
-  const nav = document.getElementById('nav-'+s);
-  if(nav) nav.classList.add('active');
-  document.getElementById('sec-'+s).classList.add('active');
-  currentSection = s;
-  if(s==='dashboard') { renderAdminTable(); updateMasterStats(); }
-  if(s==='tracker') renderTrackerTable();
-  if(s==='declarations') renderDeclTable();
-  if(s==='transport') renderTransTable();
-  if(s==='invoices') renderInvTable();
-  if(s==='quotations') renderQuotTable();
-}
-
-// ============================================================
-// MODALS
-// ============================================================
-function openModal(id){
-  document.getElementById(id).classList.add('open');
-  if(id==='shipment-modal') document.getElementById('f-date').value = today();
-  if(id==='quot-modal') document.getElementById('q-date').value = today();
-}
-function closeModal(id){ document.getElementById(id).classList.remove('open'); }
-document.querySelectorAll('.modal-overlay').forEach(m=>{
-  m.addEventListener('click', e=>{ if(e.target===m) m.classList.remove('open'); });
-});
-function today(){ return new Date().toISOString().split('T')[0]; }
-function nowStr(){ return new Date().toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}); }
-
-// ============================================================
-// NOTIFICATIONS
-// ============================================================
-function updateNotifBell(){
-  if(currentRole==='ADMIN'){ document.getElementById('notif-bell-btn').style.display='none'; return; }
-  document.getElementById('notif-bell-btn').style.display='flex';
-  const myDept = ROLE_DEPT_MAP[currentRole];
-  const unread = notifications.filter(n => n.dept === myDept && !n.readBy.includes(currentUser));
-  const badge = document.getElementById('notif-count');
-  if(unread.length > 0){
-    badge.style.display='flex';
-    badge.textContent = unread.length > 9 ? '9+' : unread.length;
-  } else {
-    badge.style.display='none';
+const MONTHS = {
+  jan: { label: 'January', hasData: false },
+  feb: { label: 'February', hasData: false },
+  mar: { label: 'March', hasData: false },
+  apr: {
+    label: 'April', hasData: true,
+    summary: {
+      opening: 1121798473, invoices: 1226371027,
+      collections: 968667068, closing: 1379502432,
+      pct: 41.25, dso: 56.58
+    },
+    collectors: [
+      { name:'Rosemary Vicent', open:178186556, inv:233964472, col:216736456, close:195414572, target:208126138, ach:104.14 },
+      { name:'Agape Mnzava',    open:106032095, inv:182782441, col:177568285, close:111246251, target:171107842, ach:103.78 },
+      { name:'Doreen Jackson',  open:135755269, inv:197410981, col:148815657, close:184350593, target:164831516, ach:90.28  },
+      { name:'Fredy Edward',    open:103296320, inv:82390687,  col:91623064,  close:94063943,  target:101575792, ach:90.20  },
+      { name:'Doreen Mehta',    open:92204261,  inv:324494509, col:142908702, close:273790068, target:214953860, ach:66.48  },
+      { name:'Samwel Kivuyo',   open:85015132,  inv:73193280,  col:68497225,  close:89711187,  target:104896619, ach:65.30  },
+      { name:'Winifreda',       open:82075206,  inv:70133520,  col:57878911,  close:94329815,  target:98743472,  ach:58.62  },
+      { name:'Eldad Moyo',      open:110962921, inv:38329328,  col:36724152,  close:112568097, target:67780268,  ach:54.18  },
+      { name:'Simon',           open:161047683, inv:23671809,  col:27914616,  close:156804876, target:87920086,  ach:31.75  },
+    ]
+  },
+  may: {
+    label: 'May', hasData: true,
+    summary: {
+      opening: 1390798474, invoices: 375306256,
+      collections: 389633930, closing: 1376470800,
+      pct: 22.06, dso: 59.39
+    },
+    collectors: [
+      { name:'Doreen Mehta',    open:274574768, inv:63078821,  col:142951285, close:194702304, target:210458226, ach:67.92 },
+      { name:'Rosemary Vicent', open:196594572, inv:57725851,  col:43510181,  close:210810242, target:115302429, ach:37.74 },
+      { name:'Doreen Jackson',  open:184350593, inv:52163945,  col:53253324,  close:183261214, target:158184800, ach:33.67 },
+      { name:'Samwel Kivuyo',   open:91852887,  inv:20846226,  col:22944071,  close:89755042,  target:68869699,  ach:33.32 },
+      { name:'Agape Mnzava',    open:112030951, inv:98020831,  col:48954713,  close:161097069, target:147391882, ach:33.21 },
+      { name:'Winifreda',       open:94959215,  inv:23775451,  col:24202166,  close:94532500,  target:76939129,  ach:31.46 },
+      { name:'Eldad Moyo',      open:112920397, inv:13371230,  col:15700182,  close:110591445, target:51000943,  ach:30.78 },
+      { name:'Fredy Edward',    open:94889943,  inv:28686441,  col:18075020,  close:105501364, target:62643813,  ach:28.85 },
+      { name:'Simon',           open:157165554, inv:17637460,  col:20040278,  close:154762736, target:81724225,  ach:24.52 },
+    ]
   }
+};
+
+const M = v => (v/1e6).toFixed(1);
+const MB = v => (v/1e6).toFixed(0);
+const fmtTZS = v => v.toLocaleString();
+const fmtM = v => (v/1e6).toFixed(1)+'M';
+
+let activeMonth = 'may';
+let chartInstances = {};
+
+function destroyChart(id) {
+  if (chartInstances[id]) { chartInstances[id].destroy(); delete chartInstances[id]; }
 }
 
-function toggleNotifPanel(){
-  const panel = document.getElementById('notif-panel');
-  panel.classList.toggle('open');
-  if(panel.classList.contains('open')) renderNotifPanel();
-  // close on outside click
+function pillClass(ach) {
+  return ach >= 70 ? 'pill-hi' : ach >= 40 ? 'pill-mid' : 'pill-low';
 }
-document.addEventListener('click', e=>{
-  const panel = document.getElementById('notif-panel');
-  const bell = document.getElementById('notif-bell-btn');
-  if(panel && !panel.contains(e.target) && e.target !== bell && !bell.contains(e.target)){
-    panel.classList.remove('open');
-  }
-});
+function barColor(ach) {
+  return ach >= 70 ? '#0F6E56' : ach >= 40 ? '#BA7517' : '#A32D2D';
+}
 
-function renderNotifPanel(){
-  const myDept = ROLE_DEPT_MAP[currentRole]||'';
-  const mine = notifications.filter(n => currentRole==='ADMIN' || n.dept===myDept).reverse();
-  const list = document.getElementById('notif-list');
-  if(!mine.length){ list.innerHTML='<div class="notif-empty">📭 No notifications yet.<br>GM instructions will appear here.</div>'; return; }
-  list.innerHTML = mine.map(n=>{
-    const unread = !n.readBy.includes(currentUser);
-    return `<div class="notif-item ${unread?'unread':''}" onclick="openFromNotif('${n.dept}','${n.recordId}','${n.recordLabel}','${n.id}')">
-      <div class="notif-from">
-        <span>👤 ${n.author}</span>
-        <span style="color:var(--muted)">→ ${n.dept.toUpperCase()}</span>
-        <span class="notif-time">${n.time}</span>
-      </div>
-      <div class="notif-msg">${n.text.length>100?n.text.slice(0,100)+'...':n.text}</div>
-      <div class="notif-ref">📁 ${n.recordLabel}</div>
-    </div>`;
+function renderTabs() {
+  const container = document.getElementById('monthTabs');
+  const keys = ['jan','feb','mar','apr','may'];
+  container.innerHTML = keys.map(k => {
+    const m = MONTHS[k];
+    const cls = !m.hasData ? 'no-data' : (k === activeMonth ? 'active' : '');
+    const click = m.hasData ? `onclick="setMonth('${k}')"` : '';
+    return `<div class="tab ${cls}" ${click}>${m.label}${!m.hasData ? ' *' : ''}</div>`;
   }).join('');
 }
 
-function markAllRead(){
-  const myDept = ROLE_DEPT_MAP[currentRole]||'';
-  notifications.forEach(n=>{
-    if((currentRole==='ADMIN'||n.dept===myDept) && !n.readBy.includes(currentUser)){
-      n.readBy.push(currentUser);
-    }
-  });
-  save('lgt-notifications',notifications);
-  updateNotifBell();
-  renderNotifPanel();
+function setMonth(key) {
+  activeMonth = key;
+  renderTabs();
+  renderReport();
+  document.getElementById('activeBadge').textContent = MONTHS[key].label.toUpperCase() + ' 2026';
+  document.getElementById('footerMonth').textContent = MONTHS[key].label + ' 2026 · Data source: Habari Billing System';
 }
 
-function openFromNotif(dept, recordId, recordLabel, notifId){
-  // mark as read
-  const n = notifications.find(x=>x.id===notifId);
-  if(n && !n.readBy.includes(currentUser)){ n.readBy.push(currentUser); save('lgt-notifications',notifications); }
-  updateNotifBell();
-  renderNotifPanel();
-  document.getElementById('notif-panel').classList.remove('open');
-  // open comment thread
-  openCommentModal(recordId, dept, recordLabel);
-}
+function renderReport() {
+  const m = MONTHS[activeMonth];
+  const el = document.getElementById('reportContent');
 
-// Create notification when ADMIN posts a comment — targeted to relevant dept
-function createNotification(dept, recordId, recordLabel, text){
-  const notif = {
-    id: Date.now()+'_'+Math.random().toString(36).slice(2,6),
-    dept, recordId: String(recordId), recordLabel, text,
-    author: currentUser,
-    time: nowStr(),
-    readBy: [currentUser] // admin already "read" it
-  };
-  notifications.push(notif);
-  save('lgt-notifications', notifications);
-}
-
-// ============================================================
-// COMMENTS — visible to all, post by ADMIN, reply by DEPT
-// ============================================================
-function openCommentModal(recordId, dept, label){
-  activeCommentId = String(recordId);
-  activeCommentDept = dept;
-  document.getElementById('cm-file-label').textContent = '— '+label;
-  if(document.getElementById('cm-text')) document.getElementById('cm-text').value='';
-  if(document.getElementById('cm-reply-text')) document.getElementById('cm-reply-text').value='';
-
-  // Show post box for admin, reply box for depts (only if there are comments to reply to)
-  const isAdmin = ROLES[currentRole].canComment;
-  document.getElementById('cm-admin-post').style.display = isAdmin ? 'block':'none';
-  const key = dept+':'+recordId;
-  const hasMsgs = (comments[key]||[]).length > 0;
-  document.getElementById('cm-dept-reply').style.display = (!isAdmin && hasMsgs) ? 'block':'none';
-
-  renderCommentThread();
-  openModal('comment-modal');
-}
-
-function renderCommentThread(){
-  const key = activeCommentDept+':'+activeCommentId;
-  const msgs = comments[key]||[];
-  const list = document.getElementById('cm-list');
-
-  if(!msgs.length){
-    list.innerHTML = `<div style="text-align:center;padding:1.5rem;color:var(--muted);font-size:0.82rem">
-      ${ROLES[currentRole].canComment ? 'No instructions yet. Post the first one below.' : 'No GM instructions for this record yet.'}
-    </div>`;
-    // Hide reply box if no comments
-    if(document.getElementById('cm-dept-reply')) document.getElementById('cm-dept-reply').style.display='none';
+  if (!m.hasData) {
+    el.innerHTML = `<div class="no-data-state"><div class="icon">📋</div><p>No data available for ${m.label}. Add data to the CONFIG block to populate this month.</p></div>`;
     return;
   }
 
-  // Show reply box for depts if there are admin comments they haven't replied to
-  const isAdmin = ROLES[currentRole].canComment;
-  const hasAdminComment = msgs.some(m=>m.isAdmin);
-  if(!isAdmin && hasAdminComment) document.getElementById('cm-dept-reply').style.display='block';
+  const s = m.summary;
+  const netChange = s.collections - s.invoices;
+  const colVsOpen = ((s.collections / s.opening)*100).toFixed(1);
 
-  list.innerHTML = `<div class="comment-thread">
-    <div class="ct-header">📋 Instructions & Responses (${msgs.length})</div>
-    ${msgs.map(m=>`
-      <div class="ct-msg">
-        <div class="ct-meta">
-          <span class="ct-author ${m.isAdmin?'is-admin':'is-dept'}">${m.isAdmin?'👑':'💬'} ${m.author}</span>
-          <span class="ct-role">${m.role}</span>
-          <span class="ct-time">${m.time}</span>
+  el.innerHTML = `
+    <!-- KPIs -->
+    <div class="kpi-grid">
+      <div class="kpi-card teal">
+        <div class="kpi-label">Opening Balance</div>
+        <div class="kpi-value">${fmtM(s.opening)}</div>
+        <div class="kpi-sub">TZS outstanding</div>
+      </div>
+      <div class="kpi-card blue">
+        <div class="kpi-label">Total Invoices</div>
+        <div class="kpi-value">${fmtM(s.invoices)}</div>
+        <div class="kpi-sub">billed this month</div>
+      </div>
+      <div class="kpi-card teal">
+        <div class="kpi-label">Total Collections</div>
+        <div class="kpi-value">${fmtM(s.collections)}</div>
+        <div class="kpi-sub">${colVsOpen}% of opening AR</div>
+      </div>
+      <div class="kpi-card amber">
+        <div class="kpi-label">Closing Balance</div>
+        <div class="kpi-value">${fmtM(s.closing)}</div>
+        <div class="kpi-sub">net ${netChange >= 0 ? '▲' : '▼'} ${fmtM(Math.abs(netChange))}</div>
+      </div>
+      <div class="kpi-card ${s.pct >= 50 ? 'teal' : s.pct >= 30 ? 'amber' : 'coral'}">
+        <div class="kpi-label">% Collected vs AR</div>
+        <div class="kpi-value">${s.pct}%</div>
+        <div class="kpi-sub">DSO: ${s.dso} days</div>
+      </div>
+    </div>
+
+    <!-- CHARTS ROW -->
+    <div class="section-head">Invoice vs Collection · Per Collector</div>
+    <div class="chart-grid">
+      <div class="chart-card">
+        <div class="chart-title">Invoice vs Collection <span>(TZS Millions)</span></div>
+        <div class="legend">
+          <span class="leg-item"><span class="leg-dot" style="background:#185FA5"></span>Invoices</span>
+          <span class="leg-item"><span class="leg-dot" style="background:#0F6E56"></span>Collections</span>
         </div>
-        <div class="ct-text">${m.text}</div>
-      </div>`).join('')}
-  </div>`;
-}
+        <div style="position:relative;height:240px"><canvas id="invColChart" role="img" aria-label="Invoices vs collections per collector for ${m.label} 2026."></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Target Achievement <span>(%)</span></div>
+        <div id="achBars"></div>
+      </div>
+    </div>
 
-function postComment(){
-  const text = document.getElementById('cm-text').value.trim();
-  if(!text) return;
-  const key = activeCommentDept+':'+activeCommentId;
-  if(!comments[key]) comments[key]=[];
-  comments[key].push({
-    id: Date.now(),
-    author: currentUser,
-    role: ROLES[currentRole].label,
-    isAdmin: true,
-    text, time: nowStr()
+    <!-- TABLE -->
+    <div class="section-head">Collector Performance Detail</div>
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th>Collector</th>
+            <th>Opening (M)</th>
+            <th>Invoices (M)</th>
+            <th>Collections (M)</th>
+            <th>Closing (M)</th>
+            <th>Target (M)</th>
+            <th>Achievement</th>
+          </tr>
+        </thead>
+        <tbody id="collectorTable"></tbody>
+      </table>
+    </div>
+  `;
+
+  // Render collector rows
+  const sorted = [...m.collectors].sort((a,b) => b.ach - a.ach);
+  const tbody = document.getElementById('collectorTable');
+  sorted.forEach(c => {
+    tbody.innerHTML += `<tr>
+      <td>${c.name}</td>
+      <td>${MB(c.open)}</td>
+      <td>${MB(c.inv)}</td>
+      <td>${MB(c.col)}</td>
+      <td>${MB(c.close)}</td>
+      <td>${MB(c.target)}</td>
+      <td><span class="pill ${pillClass(c.ach)}">${c.ach.toFixed(2)}%</span></td>
+    </tr>`;
   });
-  save('lgt-comments', comments);
-  // Create notification for target dept
-  createNotification(activeCommentDept, activeCommentId, document.getElementById('cm-file-label').textContent.replace('— ',''), text);
-  document.getElementById('cm-text').value='';
-  renderCommentThread();
-  toast('✓ Instruction sent to department');
-  // refresh tables to update comment counts
-  refreshCurrentSection();
-}
+  // Total row
+  const tot = m.collectors.reduce((a,c) => ({
+    open: a.open+c.open, inv: a.inv+c.inv, col: a.col+c.col,
+    close: a.close+c.close, target: a.target+c.target
+  }), {open:0,inv:0,col:0,close:0,target:0});
+  const totAch = ((tot.col/tot.target)*100).toFixed(2);
+  tbody.innerHTML += `<tr>
+    <td>TOTAL</td>
+    <td>${MB(tot.open)}</td>
+    <td>${MB(tot.inv)}</td>
+    <td>${MB(tot.col)}</td>
+    <td>${MB(tot.close)}</td>
+    <td>${MB(tot.target)}</td>
+    <td><span class="pill ${pillClass(parseFloat(totAch))}">${totAch}%</span></td>
+  </tr>`;
 
-function postReply(){
-  const text = document.getElementById('cm-reply-text').value.trim();
-  if(!text) return;
-  const key = activeCommentDept+':'+activeCommentId;
-  if(!comments[key]) comments[key]=[];
-  comments[key].push({
-    id: Date.now(),
-    author: currentUser,
-    role: ROLES[currentRole].label,
-    isAdmin: false,
-    text, time: nowStr()
+  // Bar chart
+  destroyChart('invColChart');
+  const labels = m.collectors.map(c => c.name.split(' ')[0]);
+  chartInstances['invColChart'] = new Chart(document.getElementById('invColChart'), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        { label:'Invoices',    data: m.collectors.map(c=>parseFloat(M(c.inv))), backgroundColor:'#185FA5', borderRadius:3 },
+        { label:'Collections', data: m.collectors.map(c=>parseFloat(M(c.col))), backgroundColor:'#0F6E56', borderRadius:3 },
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ display:false } },
+      scales:{
+        x:{ ticks:{ font:{size:10}, color:'#888780' }, grid:{ display:false } },
+        y:{ ticks:{ font:{size:10}, color:'#888780', callback:v=>v+'M' }, grid:{ color:'rgba(136,135,128,0.12)' } }
+      }
+    }
   });
-  save('lgt-comments', comments);
-  // Notify admin of reply
-  const replyNotif = {
-    id: Date.now()+'_reply',
-    dept: 'dashboard',
-    recordId: String(activeCommentId),
-    recordLabel: document.getElementById('cm-file-label').textContent.replace('— ',''),
-    text: `[REPLY from ${currentUser}] ${text}`,
-    author: currentUser,
-    time: nowStr(),
-    readBy: [currentUser]
-  };
-  notifications.push(replyNotif);
-  save('lgt-notifications', notifications);
-  document.getElementById('cm-reply-text').value='';
-  renderCommentThread();
-  toast('✓ Reply sent to GM');
-  refreshCurrentSection();
-}
 
-function commentCount(dept, id){
-  const key = dept+':'+String(id);
-  const msgs = comments[key]||[];
-  const adminMsgs = msgs.filter(m=>m.isAdmin).length;
-  if(!adminMsgs) return '';
-  const isAdmin = ROLES[currentRole].canComment;
-  const unreadDept = !isAdmin && msgs.some(m=>m.isAdmin);
-  return `<span class="att-count" style="color:${unreadDept?'var(--red)':'var(--blue)'};cursor:pointer" onclick="openCommentModal('${id}','${dept}','${id}')">
-    ${unreadDept?'🔴':'💬'} ${msgs.length} msg${msgs.length>1?'s':''}
-  </span>`;
-}
-
-function commentBtn(dept, id, label){
-  const msgs = (comments[dept+':'+String(id)]||[]);
-  const n = msgs.length;
-  const hasUnread = msgs.some(m=>m.isAdmin) && !ROLES[currentRole].canComment;
-  return `<button class="admin-comment-btn" style="${hasUnread?'border-color:var(--red);color:var(--red)':''}" onclick="openCommentModal('${id}','${dept}','${label}')">
-    ${hasUnread?'🔴':'💬'} ${n>0?n+' msg'+(n>1?'s':''):'Instruct'}
-  </button>`;
-}
-
-function refreshCurrentSection(){
-  if(currentSection==='dashboard') { renderAdminTable(); }
-  if(currentSection==='tracker') renderTrackerTable();
-  if(currentSection==='declarations') renderDeclTable();
-  if(currentSection==='transport') renderTransTable();
-  if(currentSection==='invoices') renderInvTable();
-  if(currentSection==='quotations') renderQuotTable();
-}
-
-// ============================================================
-// FILE ATTACHMENTS
-// ============================================================
-function handleFiles(prefix, store){
-  const input = document.getElementById(prefix+'-files');
-  if(!input) return;
-  if(!tempFiles[prefix]) tempFiles[prefix]=[];
-  Array.from(input.files).forEach(file=>{
-    const reader = new FileReader();
-    reader.onload = e => {
-      tempFiles[prefix].push({ name:file.name, data:e.target.result, type:file.type });
-      renderAttachList(prefix);
-    };
-    reader.readAsDataURL(file);
+  // Horizontal achievement bars
+  const achContainer = document.getElementById('achBars');
+  const maxAch = Math.max(...m.collectors.map(c=>c.ach), 100);
+  sorted.forEach(c => {
+    const color = barColor(c.ach);
+    const w = Math.min((c.ach/maxAch)*100, 100);
+    achContainer.innerHTML += `<div class="hbar-row">
+      <span class="hbar-name">${c.name.split(' ')[0]}</span>
+      <div class="hbar-track"><div class="hbar-fill" style="width:${w}%;background:${color}"></div></div>
+      <span class="hbar-pct" style="color:${color}">${c.ach.toFixed(1)}%</span>
+    </div>`;
   });
-  input.value='';
 }
 
-function renderAttachList(prefix){
-  const list = document.getElementById(prefix+'-attach-list');
-  if(!list) return;
-  const files = tempFiles[prefix]||[];
-  list.innerHTML = files.map((f,i)=>`
-    <div class="attach-chip">
-      ${fileIcon(f.type)} ${f.name}
-      <button onclick="removeFile('${prefix}',${i})">✕</button>
-    </div>`).join('');
-}
+function renderTrend() {
+  const availableKeys = Object.keys(MONTHS).filter(k => MONTHS[k].hasData);
+  const el = document.getElementById('trendSection');
 
-function removeFile(prefix, idx){ tempFiles[prefix].splice(idx,1); renderAttachList(prefix); }
+  if (availableKeys.length < 2) {
+    el.innerHTML = `<div class="section-head">Month-over-Month Trend</div>
+      <div class="trend-card" style="text-align:center;padding:24px;color:var(--gray-500);font-size:12px;">
+        Trend chart will appear once data for 2+ months is available. Add January–March data to the CONFIG to complete the picture.
+      </div>`;
+    return;
+  }
 
-function fileIcon(type){
-  if(!type) return '📄';
-  if(type.includes('pdf')) return '📕';
-  if(type.includes('image')) return '🖼';
-  if(type.includes('word')||type.includes('document')) return '📘';
-  if(type.includes('sheet')||type.includes('excel')) return '📗';
-  return '📄';
-}
+  const labels = availableKeys.map(k => MONTHS[k].label.slice(0,3));
+  const invData  = availableKeys.map(k => parseFloat(M(MONTHS[k].summary.invoices)));
+  const colData  = availableKeys.map(k => parseFloat(M(MONTHS[k].summary.collections)));
+  const pctData  = availableKeys.map(k => MONTHS[k].summary.pct);
+  const dsoData  = availableKeys.map(k => MONTHS[k].summary.dso);
+  const closeData = availableKeys.map(k => parseFloat(M(MONTHS[k].summary.closing)));
 
-function renderStoredAttachments(files){
-  if(!files||!files.length) return '<span style="color:var(--muted);font-size:0.72rem">—</span>';
-  return files.map(f=>`<span class="att-count" title="${f.name}">📎 ${f.name.length>14?f.name.slice(0,12)+'..':f.name}</span>`).join('<br>');
-}
+  // Collector month-over-month comparison
+  const allCollectors = [...new Set(
+    availableKeys.flatMap(k => MONTHS[k].collectors.map(c=>c.name))
+  )].sort();
 
-// ============================================================
-// BADGE / TOAST / HELPERS
-// ============================================================
-function badge(val){
-  if(!val) return '<span class="badge b-neutral">—</span>';
-  const v = val.toLowerCase();
-  if(['delivered','cleared','paid','reconciled','crossed','accepted','issued'].some(w=>v.includes(w))) return `<span class="badge b-done">${val}</span>`;
-  if(['transit','progress','approaching','border','quoted'].some(w=>v.includes(w))) return `<span class="badge b-transit">${val}</span>`;
-  if(['issue','hold','outstanding'].some(w=>v.includes(w))) return `<span class="badge b-issue">${val}</span>`;
-  if(['sea','air','road'].some(w=>v.includes(w))) return `<span class="badge b-purple">${val}</span>`;
-  return `<span class="badge b-pend">${val}</span>`;
-}
+  el.innerHTML = `
+    <div class="section-head">Month-over-Month Trend (${availableKeys.length} months available)</div>
+    <div class="chart-grid">
+      <div class="chart-card">
+        <div class="chart-title">Invoices vs Collections — Monthly Trend <span>(TZS Millions)</span></div>
+        <div class="legend">
+          <span class="leg-item"><span class="leg-dot" style="background:#185FA5"></span>Invoices</span>
+          <span class="leg-item"><span class="leg-dot" style="background:#0F6E56"></span>Collections</span>
+        </div>
+        <div style="position:relative;height:220px"><canvas id="trendLineChart" role="img" aria-label="Month over month invoices and collections trend for 2026."></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">% Collected &amp; DSO Trend</div>
+        <div class="legend">
+          <span class="leg-item"><span class="leg-dot" style="background:#BA7517"></span>% Collected</span>
+          <span class="leg-item"><span class="leg-dot" style="background:#D4537E"></span>DSO (days)</span>
+        </div>
+        <div style="position:relative;height:220px"><canvas id="trendPctChart" role="img" aria-label="Percentage collected and days sales outstanding trend."></canvas></div>
+      </div>
+      <div class="chart-card full">
+        <div class="chart-title">Closing AR Balance Trend <span>(TZS Millions)</span></div>
+        <div style="position:relative;height:180px"><canvas id="trendCloseChart" role="img" aria-label="Closing accounts receivable balance trend across months."></canvas></div>
+      </div>
+    </div>
 
-function toast(msg, type=''){
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.className='show '+(type==='err'?'err':'');
-  setTimeout(()=>t.classList.remove('show'),3000);
-}
+    <div class="section-head">Collector Achievement — Month-over-Month Comparison (%)</div>
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th>Collector</th>
+            ${availableKeys.map(k=>`<th>${MONTHS[k].label}</th>`).join('')}
+            <th>Trend</th>
+          </tr>
+        </thead>
+        <tbody id="trendTable"></tbody>
+      </table>
+    </div>
 
-function clearForm(ids){ ids.forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; }); }
-function clearSelects(ids){ ids.forEach(id=>{ const el=document.getElementById(id); if(el) el.selectedIndex=0; }); }
+    <div class="section-head">Summary — Monthly Comparison</div>
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th>Metric</th>
+            ${availableKeys.map(k=>`<th>${MONTHS[k].label}</th>`).join('')}
+            <th>Change (last 2)</th>
+          </tr>
+        </thead>
+        <tbody id="summaryTable"></tbody>
+      </table>
+    </div>
+  `;
 
-// ============================================================
-// MASTER TRACKER
-// ============================================================
-function saveShipment(){
-  const fn = document.getElementById('f-filenum').value.trim();
-  const cl = document.getElementById('f-client').value.trim();
-  if(!fn||!cl){ toast('File Number and Client Name are required','err'); return; }
-  const rec = {
-    id: Date.now(),
-    fileNum: fn,
-    dateReceived: document.getElementById('f-date').value,
-    clientName: cl,
-    clientContact: document.getElementById('f-contact').value,
-    origin: document.getElementById('f-origin').value,
-    entryPoint: document.getElementById('f-entry').value,
-    destination: document.getElementById('f-dest').value,
-    branch: document.getElementById('f-branch').value,
-    mode: document.getElementById('f-mode').value,
-    cargo: document.getElementById('f-cargo').value,
-    officer: document.getElementById('f-officer').value,
-    declStatus: document.getElementById('f-declstatus').value,
-    truckType: document.getElementById('f-trucktype').value,
-    truckNum: document.getElementById('f-trucknum').value,
-    driver: document.getElementById('f-driver').value,
-    borderStatus: document.getElementById('f-border').value,
-    deliveryStatus: document.getElementById('f-delivery').value,
-    deliveryDate: document.getElementById('f-delivdate').value,
-    invoiceNum: document.getElementById('f-invnum').value,
-    invoiceAmt: document.getElementById('f-invamt').value,
-    invoiceStatus: document.getElementById('f-invstatus').value,
-    financeStatus: document.getElementById('f-finstatus').value,
-    lastUpdate: document.getElementById('f-lastupd').value,
-    remarks: document.getElementById('f-remarks').value,
-    deptRemarks: document.getElementById('f-dept-remarks').value,
-    attachments: tempFiles['f']||[],
-    createdBy: currentUser
-  };
-  records.push(rec);
-  save('lgt-records', records);
-  tempFiles['f']=[]; renderAttachList('f');
-  closeModal('shipment-modal');
-  renderTrackerTable();
-  if(currentRole==='ADMIN'){ renderAdminTable(); updateMasterStats(); }
-  toast('✓ Shipment file saved!');
-  clearForm(['f-filenum','f-date','f-client','f-contact','f-origin','f-entry','f-dest','f-cargo','f-officer','f-trucknum','f-driver','f-invnum','f-invamt','f-lastupd','f-remarks','f-dept-remarks']);
-  clearSelects(['f-branch','f-mode','f-declstatus','f-trucktype','f-border','f-delivery','f-invstatus','f-finstatus']);
-}
-
-function renderTrackerTable(){
-  const q = (document.getElementById('tr-search')||{value:''}).value.toLowerCase();
-  const fs = (document.getElementById('tr-filter-status')||{value:''}).value;
-  let filtered = records.filter(r=>{
-    const m = !q||[r.fileNum,r.clientName,r.driver,r.truckNum,r.origin,r.destination].join(' ').toLowerCase().includes(q);
-    return m&&(!fs||r.deliveryStatus===fs);
+  // Trend line chart
+  destroyChart('trendLineChart');
+  chartInstances['trendLineChart'] = new Chart(document.getElementById('trendLineChart'), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        { label:'Invoices',    data:invData,  backgroundColor:'rgba(24,95,165,0.75)', borderRadius:4 },
+        { label:'Collections', data:colData,  backgroundColor:'rgba(15,110,86,0.75)', borderRadius:4 },
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ display:false } },
+      scales:{
+        x:{ ticks:{ font:{size:11}, color:'#888780' }, grid:{ display:false } },
+        y:{ ticks:{ font:{size:10}, color:'#888780', callback:v=>v+'M' }, grid:{ color:'rgba(136,135,128,0.1)' } }
+      }
+    }
   });
-  const tbody = document.getElementById('tr-tbody');
-  const empty = document.getElementById('tr-empty');
-  if(!filtered.length){ tbody.innerHTML=''; empty.style.display='block'; return; }
-  empty.style.display='none';
-  tbody.innerHTML = filtered.map(r=>`<tr>
-    <td><span class="file-num">${r.fileNum}</span></td>
-    <td>${r.dateReceived||'—'}</td>
-    <td><strong>${r.clientName}</strong><br><small style="color:var(--muted)">${r.clientContact||''}</small></td>
-    <td style="white-space:nowrap">${r.origin||'—'} → ${r.destination||'—'}</td>
-    <td>${badge(r.mode)}</td>
-    <td>${r.branch||'—'}</td>
-    <td>${r.driver||'—'}<br><small style="color:var(--muted)">${r.truckNum||''}</small></td>
-    <td>${badge(r.deliveryStatus)}</td>
-    <td><span class="inv-num">${r.invoiceNum||'—'}</span><br><small style="color:var(--green)">${r.invoiceAmt?Number(r.invoiceAmt).toLocaleString():''}</small></td>
-    <td style="min-width:100px">${renderStoredAttachments(r.attachments)}</td>
-    <td>
-      ${commentCount('tracker',r.id)}
-      ${ROLES[currentRole].canComment?commentBtn('tracker',r.id,r.fileNum):''}
-      <br><button class="btn btn-danger" style="margin-top:4px" onclick="deleteRecord(${r.id})">✕ Del</button>
-    </td>
-  </tr>`).join('');
 
-  document.getElementById('tr-total').textContent = records.length;
-  document.getElementById('tr-transit').textContent = records.filter(r=>r.deliveryStatus==='In Transit').length;
-  document.getElementById('tr-delivered').textContent = records.filter(r=>r.deliveryStatus==='Delivered').length;
-  document.getElementById('tr-hold').textContent = records.filter(r=>r.deliveryStatus==='On Hold').length;
+  destroyChart('trendPctChart');
+  chartInstances['trendPctChart'] = new Chart(document.getElementById('trendPctChart'), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        { label:'% Collected', data:pctData,  borderColor:'#BA7517', backgroundColor:'rgba(186,117,23,0.08)', tension:0.3, pointRadius:5, fill:true, yAxisID:'y' },
+        { label:'DSO (days)',  data:dsoData,  borderColor:'#D4537E', backgroundColor:'rgba(212,83,126,0.08)', tension:0.3, pointRadius:5, fill:false, borderDash:[4,3], yAxisID:'y2' },
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ display:false } },
+      scales:{
+        x:{ ticks:{ font:{size:11}, color:'#888780' }, grid:{ display:false } },
+        y:{ position:'left', ticks:{ font:{size:10}, color:'#BA7517', callback:v=>v+'%' }, grid:{ color:'rgba(136,135,128,0.1)' } },
+        y2:{ position:'right', ticks:{ font:{size:10}, color:'#D4537E', callback:v=>v+'d' }, grid:{ display:false } }
+      }
+    }
+  });
+
+  destroyChart('trendCloseChart');
+  chartInstances['trendCloseChart'] = new Chart(document.getElementById('trendCloseChart'), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        label:'Closing Balance', data:closeData,
+        borderColor:'#185FA5', backgroundColor:'rgba(24,95,165,0.07)',
+        tension:0.3, pointRadius:6, fill:true, borderWidth:2
+      }]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ display:false } },
+      scales:{
+        x:{ ticks:{ font:{size:11}, color:'#888780' }, grid:{ display:false } },
+        y:{ ticks:{ font:{size:10}, color:'#888780', callback:v=>v+'M' }, grid:{ color:'rgba(136,135,128,0.1)' } }
+      }
+    }
+  });
+
+  // Collector trend table
+  const trendTbody = document.getElementById('trendTable');
+  allCollectors.forEach(name => {
+    const vals = availableKeys.map(k => {
+      const c = MONTHS[k].collectors.find(x=>x.name===name);
+      return c ? c.ach : null;
+    });
+    const defined = vals.filter(v=>v!==null);
+    const last2 = defined.slice(-2);
+    let trendArrow = '—';
+    if (last2.length === 2) {
+      const diff = last2[1] - last2[0];
+      trendArrow = diff > 5 ? `<span style="color:var(--teal-mid)">▲ +${diff.toFixed(1)}%</span>`
+                 : diff < -5 ? `<span style="color:var(--red-mid)">▼ ${diff.toFixed(1)}%</span>`
+                 : `<span style="color:var(--gray-500)">→ ${diff >= 0 ? '+' : ''}${diff.toFixed(1)}%</span>`;
+    }
+    const cells = vals.map(v => v === null ? '<td style="color:var(--gray-200)">—</td>'
+      : `<td><span class="pill ${pillClass(v)}">${v.toFixed(1)}%</span></td>`).join('');
+    trendTbody.innerHTML += `<tr><td>${name}</td>${cells}<td>${trendArrow}</td></tr>`;
+  });
+
+  // Summary table
+  const metrics = [
+    { label:'Opening Balance', key:'opening', fmt: v=>fmtM(v)+' TZS' },
+    { label:'Total Invoices',  key:'invoices', fmt: v=>fmtM(v)+' TZS' },
+    { label:'Total Collections',key:'collections', fmt: v=>fmtM(v)+' TZS' },
+    { label:'Closing Balance', key:'closing', fmt: v=>fmtM(v)+' TZS' },
+    { label:'% Collected',     key:'pct', fmt: v=>v+'%' },
+    { label:'DSO (days)',      key:'dso', fmt: v=>v+' d' },
+  ];
+  const sumTbody = document.getElementById('summaryTable');
+  metrics.forEach(({ label, key, fmt }) => {
+    const vals = availableKeys.map(k => MONTHS[k].summary[key]);
+    const last2 = vals.slice(-2);
+    let change = '—';
+    if (last2.length === 2 && last2[0] !== 0) {
+      const diff = ((last2[1]-last2[0])/last2[0]*100).toFixed(1);
+      const isPositive = (key === 'pct' || key === 'collections') ? parseFloat(diff) > 0 : parseFloat(diff) < 0;
+      const color = isPositive ? 'var(--teal-mid)' : 'var(--red-mid)';
+      change = `<span style="color:${color}">${parseFloat(diff)>0?'+':''}${diff}%</span>`;
+    }
+    const cells = vals.map(v=>`<td>${fmt(v)}</td>`).join('');
+    sumTbody.innerHTML += `<tr><td>${label}</td>${cells}<td>${change}</td></tr>`;
+  });
 }
 
-function deleteRecord(id){
-  if(!confirm('Delete this record?')) return;
-  records=records.filter(r=>r.id!==id); save('lgt-records',records); renderTrackerTable();
-  toast('Record deleted');
-}
-
-function renderAdminTable(){
-  const q = (document.getElementById('adm-search')||{value:''}).value.toLowerCase();
-  let filtered = records.filter(r=>!q||[r.fileNum,r.clientName,r.driver,r.truckNum].join(' ').toLowerCase().includes(q));
-  const tbody = document.getElementById('adm-tbody');
-  const empty = document.getElementById('adm-empty');
-  if(!filtered.length){ tbody.innerHTML=''; empty.style.display='block'; return; }
-  empty.style.display='none';
-  tbody.innerHTML = filtered.map(r=>`<tr>
-    <td><span class="file-num">${r.fileNum}</span></td>
-    <td>${r.dateReceived||'—'}</td>
-    <td><strong>${r.clientName}</strong></td>
-    <td style="white-space:nowrap">${r.origin||'—'} → ${r.destination||'—'}</td>
-    <td>${badge(r.mode)}</td>
-    <td>${r.branch||'—'}</td>
-    <td>${badge(r.declStatus)}</td>
-    <td>${badge(r.borderStatus)}</td>
-    <td>${badge(r.deliveryStatus)}</td>
-    <td>${badge(r.invoiceStatus)}</td>
-    <td>${badge(r.financeStatus)}</td>
-    <td>${renderStoredAttachments(r.attachments)}</td>
-    <td>${commentBtn('tracker',r.id,r.fileNum)}</td>
-  </tr>`).join('');
-}
-
-function updateMasterStats(){
-  document.getElementById('ms-total').textContent = records.length;
-  document.getElementById('ms-transit').textContent = records.filter(r=>r.deliveryStatus==='In Transit').length;
-  document.getElementById('ms-delivered').textContent = records.filter(r=>r.deliveryStatus==='Delivered').length;
-  document.getElementById('ms-decl').textContent = decls.filter(d=>d.status==='Pending').length;
-  document.getElementById('ms-inv').textContent = invoices.filter(i=>i.finStatus==='Outstanding').length;
-  const amt = invoices.reduce((s,i)=>s+(parseFloat(i.amount)||0),0);
-  document.getElementById('ms-amt').textContent = amt.toLocaleString();
-}
-
-// ============================================================
-// DECLARATIONS
-// ============================================================
-function saveDecl(){
-  const rec = {
-    id: Date.now(),
-    fileNum: document.getElementById('d-filenum').value,
-    client: document.getElementById('d-client').value,
-    branch: document.getElementById('d-branch').value,
-    officer: document.getElementById('d-officer').value,
-    status: document.getElementById('d-status').value,
-    remarks: document.getElementById('d-remarks').value,
-    attachments: tempFiles['d']||[],
-    createdBy: currentUser
-  };
-  decls.push(rec);
-  save('lgt-decls', decls);
-  tempFiles['d']=[]; renderAttachList('d');
-  closeModal('decl-modal');
-  renderDeclTable();
-  toast('✓ Declaration saved!');
-  clearForm(['d-filenum','d-client','d-officer','d-remarks']);
-  clearSelects(['d-branch','d-status']);
-}
-
-function renderDeclTable(){
-  const role = ROLES[currentRole];
-  const branch = role.branch||null;
-  let list = branch ? decls.filter(d=>d.branch===branch) : decls;
-  const tbody = document.getElementById('decl-tbody');
-  const empty = document.getElementById('decl-empty');
-  const addBtn = document.getElementById('decl-add-btn');
-  const notice = document.getElementById('decl-readonly-notice');
-  const canEdit = ['ADMIN','DECL_ARU','DECL_DAR','OPERATIONS'].includes(currentRole);
-  if(addBtn) addBtn.style.display = canEdit?'':'none';
-  if(notice) notice.style.display = (!canEdit&&currentRole!=='ADMIN')?'flex':'none';
-  if(!list.length){ tbody.innerHTML=''; empty.style.display='block'; return; }
-  empty.style.display='none';
-  tbody.innerHTML = list.map(r=>`<tr>
-    <td><span class="file-num">${r.fileNum||'—'}</span></td>
-    <td>${r.client||'—'}</td>
-    <td>${r.branch||'—'}</td>
-    <td>${r.officer||'—'}</td>
-    <td>${badge(r.status)}</td>
-    <td style="max-width:180px;font-size:0.78rem">${r.remarks||'—'}</td>
-    <td>${renderStoredAttachments(r.attachments)}</td>
-    <td>
-      ${commentCount('decl',r.id)}
-      ${ROLES[currentRole].canComment?commentBtn('decl',r.id,r.fileNum||r.client):''}
-      ${canEdit?`<button class="btn btn-danger" onclick="deleteDecl(${r.id})">✕</button>`:''}
-    </td>
-  </tr>`).join('');
-}
-
-function deleteDecl(id){ if(!confirm('Delete?')) return; decls=decls.filter(r=>r.id!==id); save('lgt-decls',decls); renderDeclTable(); }
-
-// ============================================================
-// TRANSPORT
-// ============================================================
-function saveTrans(){
-  const rec = {
-    id: Date.now(),
-    fileNum: document.getElementById('t-filenum').value,
-    client: document.getElementById('t-client').value,
-    truckType: document.getElementById('t-trucktype').value,
-    truckNum: document.getElementById('t-trucknum').value,
-    driver: document.getElementById('t-driver').value,
-    origin: document.getElementById('t-origin').value,
-    dest: document.getElementById('t-dest').value,
-    border: document.getElementById('t-border').value,
-    delivery: document.getElementById('t-delivery').value,
-    delivDate: document.getElementById('t-delivdate').value,
-    remarks: document.getElementById('t-remarks').value,
-    attachments: tempFiles['t']||[],
-    createdBy: currentUser
-  };
-  transports.push(rec);
-  save('lgt-trans', transports);
-  tempFiles['t']=[]; renderAttachList('t');
-  closeModal('trans-modal');
-  renderTransTable();
-  toast('✓ Transport record saved!');
-}
-
-function renderTransTable(){
-  const tbody = document.getElementById('tp-tbody');
-  const empty = document.getElementById('tp-empty');
-  if(!transports.length){ tbody.innerHTML=''; empty.style.display='block'; return; }
-  empty.style.display='none';
-  tbody.innerHTML = transports.map(r=>`<tr>
-    <td><span class="file-num">${r.fileNum||'—'}</span></td>
-    <td>${r.client||'—'}</td>
-    <td>${r.truckType||'—'}</td>
-    <td><strong>${r.truckNum||'—'}</strong></td>
-    <td>${r.driver||'—'}</td>
-    <td style="white-space:nowrap">${r.origin||'—'} → ${r.dest||'—'}</td>
-    <td>${badge(r.border)}</td>
-    <td>${badge(r.delivery)}</td>
-    <td>${r.delivDate||'—'}</td>
-    <td style="max-width:160px;font-size:0.75rem;color:var(--text2)">${r.remarks||'—'}</td>
-    <td>${renderStoredAttachments(r.attachments)}</td>
-    <td>
-      ${commentCount('trans',r.id)}
-      ${ROLES[currentRole].canComment?commentBtn('trans',r.id,r.fileNum||r.client):''}
-      <button class="btn btn-danger" onclick="deleteTrans(${r.id})">✕</button>
-    </td>
-  </tr>`).join('');
-
-  document.getElementById('tp-active').textContent = transports.filter(r=>r.delivery==='In Transit').length;
-  document.getElementById('tp-done').textContent = transports.filter(r=>r.delivery==='Delivered').length;
-  document.getElementById('tp-border').textContent = transports.filter(r=>r.border==='At Border').length;
-}
-
-function deleteTrans(id){ if(!confirm('Delete?')) return; transports=transports.filter(r=>r.id!==id); save('lgt-trans',transports); renderTransTable(); }
-
-// ============================================================
-// INVOICES
-// ============================================================
-function saveInv(){
-  const rec = {
-    id: Date.now(),
-    invNum: document.getElementById('i-invnum').value,
-    fileNum: document.getElementById('i-filenum').value,
-    client: document.getElementById('i-client').value,
-    amount: document.getElementById('i-amount').value,
-    invStatus: document.getElementById('i-invstatus').value,
-    finStatus: document.getElementById('i-finstatus').value,
-    lastUpd: document.getElementById('i-lastupd').value,
-    notes: document.getElementById('i-notes').value,
-    remarks: document.getElementById('i-remarks').value,
-    attachments: tempFiles['i']||[],
-    createdBy: currentUser
-  };
-  invoices.push(rec);
-  save('lgt-invs', invoices);
-  tempFiles['i']=[]; renderAttachList('i');
-  closeModal('inv-modal');
-  renderInvTable();
-  toast('✓ Invoice saved!');
-}
-
-function renderInvTable(){
-  const tbody = document.getElementById('inv-tbody');
-  const empty = document.getElementById('inv-empty');
-  if(!invoices.length){ tbody.innerHTML=''; empty.style.display='block'; return; }
-  empty.style.display='none';
-  tbody.innerHTML = invoices.map(r=>`<tr>
-    <td><span class="inv-num">${r.invNum||'—'}</span></td>
-    <td><span class="file-num">${r.fileNum||'—'}</span></td>
-    <td>${r.client||'—'}</td>
-    <td style="color:var(--green);font-family:var(--font-m)">${r.amount?Number(r.amount).toLocaleString():'—'}</td>
-    <td>${badge(r.invStatus)}</td>
-    <td>${badge(r.finStatus)}</td>
-    <td>${r.lastUpd||'—'}</td>
-    <td style="max-width:160px;font-size:0.75rem;color:var(--text2)">${r.remarks||'—'}</td>
-    <td>${renderStoredAttachments(r.attachments)}</td>
-    <td>
-      ${commentCount('inv',r.id)}
-      ${ROLES[currentRole].canComment?commentBtn('inv',r.id,r.invNum||r.fileNum):''}
-      <button class="btn btn-danger" onclick="deleteInv(${r.id})">✕</button>
-    </td>
-  </tr>`).join('');
-
-  const total = invoices.reduce((s,r)=>s+(parseFloat(r.amount)||0),0);
-  document.getElementById('inv-total').textContent = total.toLocaleString();
-  document.getElementById('inv-paid').textContent = invoices.filter(r=>r.invStatus==='Paid').length;
-  document.getElementById('inv-out').textContent = invoices.filter(r=>r.finStatus==='Outstanding').length;
-}
-
-function deleteInv(id){ if(!confirm('Delete?')) return; invoices=invoices.filter(r=>r.id!==id); save('lgt-invs',invoices); renderInvTable(); }
-
-// ============================================================
-// QUOTATIONS
-// ============================================================
-function saveQuot(){
-  const rec = {
-    id: Date.now(),
-    date: document.getElementById('q-date').value,
-    client: document.getElementById('q-client').value,
-    contact: document.getElementById('q-contact').value,
-    origin: document.getElementById('q-origin').value,
-    dest: document.getElementById('q-dest').value,
-    mode: document.getElementById('q-mode').value,
-    cargo: document.getElementById('q-cargo').value,
-    amount: document.getElementById('q-amount').value,
-    status: document.getElementById('q-status').value,
-    remarks: document.getElementById('q-remarks').value,
-    attachments: tempFiles['q']||[],
-    createdBy: currentUser
-  };
-  quotations.push(rec);
-  save('lgt-quots', quotations);
-  tempFiles['q']=[]; renderAttachList('q');
-  closeModal('quot-modal');
-  renderQuotTable();
-  toast('✓ Quotation saved!');
-}
-
-function renderQuotTable(){
-  const tbody = document.getElementById('quot-tbody');
-  const empty = document.getElementById('quot-empty');
-  if(!quotations.length){ tbody.innerHTML=''; empty.style.display='block'; return; }
-  empty.style.display='none';
-  tbody.innerHTML = quotations.map(r=>`<tr>
-    <td>${r.date||'—'}</td>
-    <td><strong>${r.client||'—'}</strong></td>
-    <td>${r.contact||'—'}</td>
-    <td style="white-space:nowrap">${r.origin||'—'} → ${r.dest||'—'}</td>
-    <td>${badge(r.mode)}</td>
-    <td style="max-width:140px;overflow:hidden;text-overflow:ellipsis">${r.cargo||'—'}</td>
-    <td style="color:var(--green);font-family:var(--font-m)">${r.amount?Number(r.amount).toLocaleString():'—'}</td>
-    <td>${badge(r.status)}</td>
-    <td style="max-width:160px;font-size:0.75rem;color:var(--text2)">${r.remarks||'—'}</td>
-    <td>${renderStoredAttachments(r.attachments)}</td>
-    <td>
-      ${commentCount('quot',r.id)}
-      ${ROLES[currentRole].canComment?commentBtn('quot',r.id,r.client):''}
-      <button class="btn btn-danger" onclick="deleteQuot(${r.id})">✕</button>
-    </td>
-  </tr>`).join('');
-}
-
-function deleteQuot(id){ if(!confirm('Delete?')) return; quotations=quotations.filter(r=>r.id!==id); save('lgt-quots',quotations); renderQuotTable(); }
-
-// ============================================================
-// CSV EXPORT
-// ============================================================
-function exportCSV(){
-  if(!records.length){ toast('No records to export','err'); return; }
-  const headers = ['File #','Date','Client','Contact','Origin','Entry','Destination','Branch','Mode','Cargo','Officer','Decl Status','Truck Type','Truck #','Driver','Border','Delivery','Deliv Date','Invoice #','Amount','Inv Status','Finance','Last Update','Remarks','Created By'];
-  const rows = records.map(r=>[r.fileNum,r.dateReceived,r.clientName,r.clientContact,r.origin,r.entryPoint,r.destination,r.branch,r.mode,r.cargo,r.officer,r.declStatus,r.truckType,r.truckNum,r.driver,r.borderStatus,r.deliveryStatus,r.deliveryDate,r.invoiceNum,r.invoiceAmt,r.invoiceStatus,r.financeStatus,r.lastUpdate,r.remarks,r.createdBy].map(v=>`"${(v||'').replace(/"/g,'""')}"`));
-  const csv = [headers.join(','),...rows.map(r=>r.join(','))].join('\n');
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
-  a.download = `LGT_Tracker_${today()}.csv`;
-  a.click();
-  toast('✓ CSV exported!');
-}
+// INIT
+document.getElementById('genDate').textContent = new Date().toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'});
+document.getElementById('footerMonth').textContent = 'May 2026 · Data source: BI (COLLECTION)';
+renderTabs();
+renderReport();
+renderTrend();
 </script>
+</body>
+</html>
